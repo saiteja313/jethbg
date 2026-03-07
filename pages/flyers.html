@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Flyers — JET Harrisburg</title>
-  <meta name="description" content="Archive of all event flyers from JET Harrisburg. Browse past and upcoming event announcements in one place.">
+  <meta name="description" content="Archive of all event flyers from JET Harrisburg.">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23D4882B'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-family='serif' font-weight='bold'>JH</text></svg>"><circle cx='16' cy='16' r='16' fill='%236B1527'/><text x='16' y='22' text-anchor='middle' fill='%23E8C547' font-size='16' font-family='serif' font-weight='bold'>JH</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23D4882B'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-family='serif' font-weight='bold'>JH</text></svg>">
   <style>
     .flyer-placeholder {
       width: 100%;
       aspect-ratio: 8.5/11;
-      background: linear-gradient(135deg, var(--saffron-pale), var(--gold-pale));
+      background: linear-gradient(135deg, var(--saffron-pale), var(--cream-warm));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: var(--saffron);
+      color: var(--saffron-soft);
       font-size: 3rem;
       border-bottom: 1px solid var(--border-light);
     }
@@ -26,49 +26,25 @@
       margin-top: 8px;
       font-family: 'Lora', serif;
     }
+    .flyer-card img.flyer-image {
+      width: 100%;
+      aspect-ratio: 8.5/11;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--cream-mid);
+    }
     .year-divider {
-      font-family: 'Cinzel', serif;
+      font-family: 'Cormorant Garamond', serif;
       color: var(--brown-deep);
       font-size: 1.4rem;
+      font-weight: 600;
       padding: 8px 0 16px;
       border-bottom: 2px solid var(--border-light);
       margin-bottom: 28px;
       margin-top: 48px;
     }
     .year-divider:first-child { margin-top: 0; }
-    .flyer-card img.flyer-image {
-      width: 100%;
-      aspect-ratio: 8.5/11;
-      object-fit: cover;
-      border-bottom: 1px solid var(--border-light);
-      background: var(--cream-dark);
-    }
-    .loading-spinner {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-      font-family: 'Lora', serif;
-    }
-    .loading-spinner::before {
-      content: '';
-      display: block;
-      width: 36px;
-      height: 36px;
-      border: 3px solid var(--border-light);
-      border-top-color: var(--saffron);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .empty-state {
-      text-align: center;
-      padding: 60px 24px;
-      color: var(--text-muted);
-      font-family: 'Lora', serif;
-    }
-    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
-    .flyer-count-badge {
+    .flyer-count {
       display: inline-block;
       background: var(--saffron-pale);
       color: var(--saffron);
@@ -78,6 +54,7 @@
       border-radius: 20px;
       margin-left: 8px;
       vertical-align: middle;
+      font-family: 'DM Sans', sans-serif;
     }
   </style>
 </head>
@@ -86,7 +63,6 @@
   <div class="top-bar">
     <div class="container">
       <span class="tagline">ॐ Serve All Beings As Service To God</span>
-      
     </div>
   </div>
   <div class="ornament-border"></div>
@@ -122,24 +98,84 @@
   <section class="section">
     <div class="container">
 
-      <!-- Dynamic content loads here -->
-      <div id="flyers-container">
-        <div class="loading-spinner">Loading flyers...</div>
+      <!--
+        ============================================================
+        HOW TO ADD A NEW FLYER:
+        1. Place your flyer image in assets/flyers/ folder
+        2. Copy one of the flyer-card blocks below
+        3. Update the src, alt, card-date, and h3 text
+        4. Put it under the correct year section
+        ============================================================
+      -->
+
+      <!-- 2026 Flyers -->
+      <h3 class="year-divider">2026 <span class="flyer-count">3 flyers</span></h3>
+      <div class="flyers-grid">
+
+        <div class="flyer-card fade-in">
+          <img class="flyer-image" src="../assets/flyers/ugadi-2026.png" alt="Ugadi Panchanga Sravanam">
+          <div class="card-body">
+            <span class="card-date">April 2026</span>
+            <h3>Ugadi Panchanga Sravanam</h3>
+          </div>
+        </div>
+
+        <div class="flyer-card fade-in">
+          <img class="flyer-image" src="../assets/flyers/sri-rama-krathuvu.png" alt="Sri Rama Krathuvu">
+          <div class="card-body">
+            <span class="card-date">March 2026</span>
+            <h3>Sri Rama Krathuvu</h3>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2025 Flyers -->
+      <h3 class="year-divider">2025 <span class="flyer-count">4 flyers</span></h3>
+      <div class="flyers-grid">
+
+        <div class="flyer-card fade-in">
+          <div class="flyer-placeholder">🎆<span>Add flyer image</span></div>
+          <div class="card-body">
+            <span class="card-date">November 2025</span>
+            <h3>Deepavali Celebrations</h3>
+          </div>
+        </div>
+
+        <div class="flyer-card fade-in">
+          <div class="flyer-placeholder">🎊<span>Add flyer image</span></div>
+          <div class="card-body">
+            <span class="card-date">October 2025</span>
+            <h3>Navaratri &amp; Dasara</h3>
+          </div>
+        </div>
+
+        <div class="flyer-card fade-in">
+          <div class="flyer-placeholder">🙏<span>Add flyer image</span></div>
+          <div class="card-body">
+            <span class="card-date">August 2025</span>
+            <h3>Sri Krishna Janmashtami</h3>
+          </div>
+        </div>
+
+        <div class="flyer-card fade-in">
+          <div class="flyer-placeholder">🪔<span>Add flyer image</span></div>
+          <div class="card-body">
+            <span class="card-date">April 2025</span>
+            <h3>Sri Sita Rama Kalyanam 2025</h3>
+          </div>
+        </div>
+
       </div>
 
     </div>
   </section>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close">&times;</button>
-    <img id="lightbox-img" src="" alt="">
-  </div>
-
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
+        <div class="footer-brand">
           <h3>JET Harrisburg</h3>
           <p>Serving the spiritual and cultural needs of the community in the greater Harrisburg, PA area.</p>
           <div class="footer-social">
@@ -154,12 +190,12 @@
           <a href="about.html">About Us</a>
           <a href="events.html">Events</a>
           <a href="shlokas.html">Shlokas</a>
-          <a href="flyers.html" class="active">Flyers</a>
+          <a href="flyers.html">Flyers</a>
         </div>
         <div class="footer-col">
           <h4>Resources</h4>
           <a href="shlokas.html">Shloka Library</a>
-          <a href="flyers.html" class="active">Event Flyers</a>
+          <a href="flyers.html">Event Flyers</a>
           <a href="https://chinnajeeyar.org/" target="_blank" rel="noopener">Jeeyar Swamiji</a>
         </div>
         <div class="footer-col">
@@ -177,125 +213,5 @@
   </footer>
 
   <script src="../js/main.js"></script>
-  <script>
-  (function() {
-    var container = document.getElementById('flyers-container');
-    var FLYERS_JSON = '../assets/flyers/flyers.json';
-    var FLYERS_DIR  = '../assets/flyers/';
-
-    // Embedded fallback data (also kept in assets/flyers/flyers.json — update EITHER place)
-    var FALLBACK_DATA = [{"name":"Sri Sita Rama Kalyanam","file":"sita-rama-kalyanam-2026.jpg","date":"April 2026","year":2026,"category":"festival"},{"name":"Holi Celebrations","file":"holi-2026.jpg","date":"March 2026","year":2026,"category":"festival"},{"name":"Vaikunta Ekadashi","file":"vaikunta-ekadashi-2026.jpg","date":"January 2026","year":2026,"category":"festival"},{"name":"Deepavali Celebrations","file":"deepavali-2025.jpg","date":"November 2025","year":2025,"category":"festival"},{"name":"Navaratri & Dasara","file":"navaratri-2025.jpg","date":"October 2025","year":2025,"category":"festival"},{"name":"Sri Krishna Janmashtami","file":"janmashtami-2025.jpg","date":"August 2025","year":2025,"category":"festival"},{"name":"Sri Sita Rama Kalyanam 2025","file":"sita-rama-kalyanam-2025.jpg","date":"April 2025","year":2025,"category":"festival"}];
-
-    function loadFlyers(flyers) {
-        if (!flyers.length) {
-          container.innerHTML =
-            '<div class="empty-state">' +
-              '<div class="empty-icon">📋</div>' +
-              '<p>No event flyers available at this time. Please check back later.</p>' +
-            '</div>';
-          return;
-        }
-
-        // Month sort order
-        var monthOrder = {
-          'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,
-          'july':7,'august':8,'september':9,'october':10,'november':11,'december':12
-        };
-
-        // Sort: newest year first, then newest month first
-        flyers.sort(function(a, b) {
-          if (b.year !== a.year) return b.year - a.year;
-          var aMonth = monthOrder[a.date.split(' ')[0].toLowerCase()] || 0;
-          var bMonth = monthOrder[b.date.split(' ')[0].toLowerCase()] || 0;
-          return bMonth - aMonth;
-        });
-
-        // Group by year
-        var grouped = {};
-        flyers.forEach(function(f) {
-          if (!grouped[f.year]) grouped[f.year] = [];
-          grouped[f.year].push(f);
-        });
-
-        // Build HTML
-        var html = '';
-        var years = Object.keys(grouped).sort(function(a, b) { return b - a; });
-
-        years.forEach(function(year, idx) {
-          var items = grouped[year];
-          html += '<h3 class="year-divider" style="' + (idx === 0 ? 'margin-top:0;' : '') + '">' +
-                    year +
-                    ' <span class="flyer-count-badge">' + items.length + ' flyer' + (items.length > 1 ? 's' : '') + '</span>' +
-                  '</h3>';
-          html += '<div class="flyers-grid">';
-
-          items.forEach(function(flyer) {
-            var imgPath = FLYERS_DIR + flyer.file;
-            var escapedName = flyer.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-            html +=
-              '<div class="flyer-card fade-in" data-fullimg="' + imgPath + '">' +
-                '<img ' +
-                  'class="flyer-image" ' +
-                  'src="' + imgPath + '" ' +
-                  'alt="' + flyer.name + '" ' +
-                  'loading="lazy" ' +
-                  'onerror="this.outerHTML=\'<div class=flyer-placeholder>📋<span>' + escapedName + '</span></div>\'" ' +
-                '>' +
-                '<div class="card-body">' +
-                  '<span class="card-date">' + flyer.date + '</span>' +
-                  '<h3>' + flyer.name + '</h3>' +
-                  '<a href="' + imgPath + '" target="_blank" class="card-link" style="font-size:0.82rem;">View Full Size</a>' +
-                '</div>' +
-              '</div>';
-          });
-
-          html += '</div>';
-        });
-
-        container.innerHTML = html;
-
-        // Re-init scroll fade-in for dynamic elements
-        var fadeEls = container.querySelectorAll('.fade-in');
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-        fadeEls.forEach(function(el) { observer.observe(el); });
-
-        // Lightbox click handler for flyer cards
-        var lightbox = document.getElementById('lightbox');
-        var lightboxImg = document.getElementById('lightbox-img');
-        if (lightbox) {
-          container.querySelectorAll('.flyer-card').forEach(function(card) {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function(e) {
-              if (e.target.closest('.card-link')) return; // let "View Full Size" link work normally
-              var img = card.querySelector('.flyer-image');
-              if (img) {
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-              }
-            });
-          });
-        }
-      }
-
-    // Try fetching JSON first, fall back to embedded data
-    fetch(FLYERS_JSON)
-      .then(function(res) {
-        if (!res.ok) throw new Error('fetch failed');
-        return res.json();
-      })
-      .then(function(data) { loadFlyers(data); })
-      .catch(function() { loadFlyers(FALLBACK_DATA); });
-  })();
-  </script>
 </body>
 </html>

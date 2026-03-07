@@ -4,385 +4,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Events — JET Harrisburg</title>
-  <meta name="description" content="Upcoming and past events organized by Jeeyar Educational Trust Harrisburg. Calendar view of festivals, parayanams, and community gatherings.">
+  <meta name="description" content="Upcoming and past events organized by Jeeyar Educational Trust Harrisburg.">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23D4882B'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-family='serif' font-weight='bold'>JH</text></svg>">
   <style>
-    /* --- Calendar Styles --- */
-    .calendar-wrapper {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-light);
-      overflow: hidden;
+    .calendar-wrapper { background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); border:1px solid var(--border-light); overflow:hidden; }
+    .calendar-header { display:flex; align-items:center; justify-content:space-between; padding:20px 28px; background:linear-gradient(135deg,var(--saffron-pale),var(--cream-warm)); border-bottom:1px solid var(--border-light); }
+    .calendar-header h2 { font-size:1.3rem; margin:0; color:var(--brown-deep); }
+    .cal-nav { display:flex; gap:8px; }
+    .cal-nav button { width:38px; height:38px; border-radius:50%; border:1px solid var(--border-sand); background:var(--white); color:var(--saffron); font-size:1.1rem; cursor:pointer; transition:all var(--transition); display:flex; align-items:center; justify-content:center; font-family:inherit; }
+    .cal-nav button:hover { background:var(--saffron); color:white; border-color:var(--saffron); }
+    .cal-today-btn { padding:6px 16px !important; width:auto !important; border-radius:var(--radius-sm) !important; font-size:0.82rem !important; font-weight:600 !important; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+    .cal-day-header { padding:10px 4px; text-align:center; font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; background:var(--cream); border-bottom:1px solid var(--border-light); }
+    .cal-day { min-height:90px; padding:6px 8px; border-right:1px solid var(--border-light); border-bottom:1px solid var(--border-light); position:relative; transition:background var(--transition); }
+    .cal-day:nth-child(7n) { border-right:none; }
+    .cal-day:hover { background:var(--saffron-pale); }
+    .cal-day.other-month { background:var(--cream); opacity:0.4; }
+    .cal-day.other-month:hover { background:var(--cream); }
+    .cal-day.today { background:var(--saffron-pale); }
+    .cal-day-number { font-size:0.82rem; font-weight:600; color:var(--text-muted); margin-bottom:4px; }
+    .cal-day.today .cal-day-number { background:var(--saffron); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; }
+    .cal-event { display:block; font-size:0.68rem; font-weight:600; padding:2px 6px; margin-bottom:2px; border-radius:4px; line-height:1.4; cursor:pointer; transition:all var(--transition); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .cal-event.festival { background:var(--saffron-pale); color:var(--saffron); border-left:2px solid var(--saffron); }
+    .cal-event.festival:hover { background:var(--saffron-glow); }
+    .cal-event.weekly { background:#EBF5EB; color:#3A7D3A; border-left:2px solid #5DA05D; }
+    .cal-event.weekly:hover { background:#D6EDD6; }
+    .event-popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-elevated); padding:32px; max-width:440px; width:90%; z-index:2000; border:1px solid var(--border-light); }
+    .event-popup.active { display:block; }
+    .event-popup-overlay { display:none; position:fixed; inset:0; background:rgba(30,24,12,0.4); z-index:1999; }
+    .event-popup-overlay.active { display:block; }
+    .event-popup-close { position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.4rem; color:var(--text-muted); cursor:pointer; }
+    .event-popup-close:hover { color:var(--text-dark); }
+    .event-popup .ep-category { display:inline-block; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; padding:3px 10px; border-radius:20px; margin-bottom:12px; }
+    .ep-category.festival { background:var(--saffron-pale); color:var(--saffron); }
+    .ep-category.weekly { background:#EBF5EB; color:#3A7D3A; }
+    .event-popup h3 { font-size:1.3rem; margin-bottom:12px; }
+    .ep-detail { display:flex; gap:10px; margin-bottom:10px; font-size:0.9rem; color:var(--text-body); }
+    .ep-detail-icon { flex-shrink:0; width:20px; text-align:center; }
+    .event-popup p.ep-desc { font-family:'Lora',serif; font-size:0.92rem; color:var(--text-muted); margin-top:14px; padding-top:14px; border-top:1px solid var(--border-light); }
+    .recurring-banner { background:linear-gradient(135deg,#EBF5EB,#D6EDD6); border:1px solid #B8DDB8; border-radius:var(--radius-md); padding:24px 28px; margin-bottom:32px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+    .recurring-banner .rb-icon { width:52px; height:52px; background:#5DA05D; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.4rem; flex-shrink:0; }
+    .recurring-banner h3 { color:#2E5E2E; margin-bottom:2px; font-size:1.05rem; }
+    .recurring-banner p { color:#4A7A4A; font-size:0.9rem; margin:0; }
+    .recurring-banner .rb-detail { font-size:0.82rem; color:#3A7D3A; font-weight:600; margin-top:4px; }
+    .event-list { display:flex; flex-direction:column; gap:16px; }
+    .event-list-item { background:var(--white); border:1px solid var(--border-light); border-radius:var(--radius-md); padding:22px 26px; display:flex; gap:20px; align-items:flex-start; transition:all var(--transition); }
+    .event-list-item:hover { box-shadow:var(--shadow-card); transform:translateY(-2px); }
+    .el-date-box { flex-shrink:0; width:60px; text-align:center; background:var(--saffron-pale); border-radius:var(--radius-sm); padding:10px 8px; border:1px solid var(--border-sand); }
+    .el-date-box .el-month { font-size:0.68rem; font-weight:700; text-transform:uppercase; color:var(--saffron); letter-spacing:0.06em; }
+    .el-date-box .el-day { font-size:1.5rem; font-weight:700; color:var(--brown-deep); font-family:'Cormorant Garamond',serif; line-height:1.1; }
+    .el-content h3 { font-size:1.05rem; margin-bottom:4px; }
+    .el-content .el-meta { font-size:0.82rem; color:var(--text-muted); margin-bottom:6px; }
+    .el-content .el-meta span { margin-right:14px; }
+    .el-content p { font-size:0.88rem; color:var(--text-muted); margin:0; }
+    .view-toggle { display:flex; gap:4px; background:var(--cream); border-radius:var(--radius-sm); padding:3px; border:1px solid var(--border-light); }
+    .view-toggle button { padding:7px 18px; border:none; background:transparent; color:var(--text-muted); font-size:0.82rem; font-weight:600; cursor:pointer; border-radius:6px; transition:all var(--transition); font-family:inherit; }
+    .view-toggle button.active { background:var(--white); color:var(--saffron); box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+    .events-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+    @media (max-width:768px) {
+      .cal-day { min-height:70px; padding:4px 3px; }
+      .cal-day-number { font-size:0.72rem; }
+      .cal-event { font-size:0.6rem; padding:1px 4px; }
+      .calendar-header { padding:16px 20px; }
+      .calendar-header h2 { font-size:1.1rem; }
+      .event-list-item { flex-direction:column; gap:12px; }
+      .recurring-banner { flex-direction:column; text-align:center; }
     }
-
-    .calendar-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 28px;
-      background: linear-gradient(135deg, var(--saffron-pale), var(--cream-warm));
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .calendar-header h2 {
-      font-size: 1.3rem;
-      margin: 0;
-      color: var(--brown-deep);
-    }
-
-    .cal-nav {
-      display: flex;
-      gap: 8px;
-    }
-
-    .cal-nav button {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid var(--border-sand);
-      background: var(--white);
-      color: var(--saffron);
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: inherit;
-    }
-    .cal-nav button:hover {
-      background: var(--saffron);
-      color: white;
-      border-color: var(--saffron);
-    }
-
-    .cal-today-btn {
-      padding: 6px 16px !important;
-      width: auto !important;
-      border-radius: var(--radius-sm) !important;
-      font-size: 0.82rem !important;
-      font-weight: 600 !important;
-    }
-
-    /* Calendar Grid */
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-    }
-
-    .cal-day-header {
-      padding: 10px 4px;
-      text-align: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: var(--cream);
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .cal-day {
-      min-height: 90px;
-      padding: 6px 8px;
-      border-right: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-      position: relative;
-      transition: background var(--transition);
-      cursor: default;
-    }
-
-    .cal-day:nth-child(7n) { border-right: none; }
-
-    .cal-day:hover { background: var(--saffron-pale); }
-
-    .cal-day.other-month {
-      background: var(--cream);
-      opacity: 0.4;
-    }
-    .cal-day.other-month:hover { background: var(--cream); }
-
-    .cal-day.today {
-      background: var(--saffron-pale);
-    }
-
-    .cal-day-number {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .cal-day.today .cal-day-number {
-      background: var(--saffron);
-      color: white;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-    }
-
-    .cal-event {
-      display: block;
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      margin-bottom: 2px;
-      border-radius: 4px;
-      line-height: 1.4;
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .cal-event.festival {
-      background: var(--saffron-pale);
-      color: var(--saffron);
-      border-left: 2px solid var(--saffron);
-    }
-    .cal-event.festival:hover { background: var(--saffron-glow); }
-
-    .cal-event.weekly {
-      background: #EBF5EB;
-      color: #3A7D3A;
-      border-left: 2px solid #5DA05D;
-    }
-    .cal-event.weekly:hover { background: #D6EDD6; }
-
-    .cal-event.special {
-      background: #EDE7F6;
-      color: #5E35B1;
-      border-left: 2px solid #7E57C2;
-    }
-    .cal-event.special:hover { background: #D1C4E9; }
-
-    /* Event Detail Popup */
-    .event-popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-elevated);
-      padding: 32px;
-      max-width: 440px;
-      width: 90%;
-      z-index: 2000;
-      border: 1px solid var(--border-light);
-    }
-    .event-popup.active { display: block; }
-
-    .event-popup-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(30, 24, 12, 0.4);
-      z-index: 1999;
-    }
-    .event-popup-overlay.active { display: block; }
-
-    .event-popup-close {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-    .event-popup-close:hover { color: var(--text-dark); }
-
-    .event-popup .ep-category {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 10px;
-      border-radius: 20px;
-      margin-bottom: 12px;
-    }
-    .ep-category.festival { background: var(--saffron-pale); color: var(--saffron); }
-    .ep-category.weekly { background: #EBF5EB; color: #3A7D3A; }
-
-    .event-popup h3 {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-    }
-
-    .ep-detail {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      color: var(--text-body);
-    }
-    .ep-detail-icon { flex-shrink: 0; width: 20px; text-align: center; }
-    .ep-detail strong { color: var(--text-dark); }
-
-    .event-popup p.ep-desc {
-      font-family: 'Lora', serif;
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-light);
-    }
-
-    /* Recurring Events Banner */
-    .recurring-banner {
-      background: linear-gradient(135deg, #EBF5EB, #D6EDD6);
-      border: 1px solid #B8DDB8;
-      border-radius: var(--radius-md);
-      padding: 24px 28px;
-      margin-bottom: 32px;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .recurring-banner .rb-icon {
-      width: 52px;
-      height: 52px;
-      background: #5DA05D;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-    .recurring-banner h3 { color: #2E5E2E; margin-bottom: 2px; font-size: 1.05rem; }
-    .recurring-banner p { color: #4A7A4A; font-size: 0.9rem; margin: 0; }
-    .recurring-banner .rb-detail {
-      font-size: 0.82rem;
-      color: #3A7D3A;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    /* List view for upcoming/past */
-    .event-list { display: flex; flex-direction: column; gap: 16px; }
-
-    .event-list-item {
-      background: var(--white);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 22px 26px;
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      transition: all var(--transition);
-    }
-    .event-list-item:hover {
-      box-shadow: var(--shadow-card);
-      transform: translateY(-2px);
-    }
-
-    .el-date-box {
-      flex-shrink: 0;
-      width: 60px;
-      text-align: center;
-      background: var(--saffron-pale);
-      border-radius: var(--radius-sm);
-      padding: 10px 8px;
-      border: 1px solid var(--border-sand);
-    }
-    .el-date-box .el-month {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--saffron);
-      letter-spacing: 0.06em;
-    }
-    .el-date-box .el-day {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--brown-deep);
-      font-family: 'Cormorant Garamond', serif;
-      line-height: 1.1;
-    }
-
-    .el-content h3 { font-size: 1.05rem; margin-bottom: 4px; }
-    .el-content .el-meta {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .el-content .el-meta span { margin-right: 14px; }
-    .el-content p { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
-
-    /* View Toggle */
-    .view-toggle {
-      display: flex;
-      gap: 4px;
-      background: var(--cream);
-      border-radius: var(--radius-sm);
-      padding: 3px;
-      border: 1px solid var(--border-light);
-    }
-    .view-toggle button {
-      padding: 7px 18px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all var(--transition);
-      font-family: inherit;
-    }
-    .view-toggle button.active {
-      background: var(--white);
-      color: var(--saffron);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-
-    .events-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    /* Responsive calendar */
-    @media (max-width: 768px) {
-      .cal-day { min-height: 70px; padding: 4px 3px; }
-      .cal-day-number { font-size: 0.72rem; }
-      .cal-event { font-size: 0.6rem; padding: 1px 4px; }
-      .calendar-header { padding: 16px 20px; }
-      .calendar-header h2 { font-size: 1.1rem; }
-      .event-list-item { flex-direction: column; gap: 12px; }
-      .recurring-banner { flex-direction: column; text-align: center; }
-    }
-
-    @media (max-width: 480px) {
-      .cal-day { min-height: 56px; }
-      .cal-event { display: none; }
-      .cal-day.has-event::after {
-        content: '';
-        display: block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--saffron);
-        margin: 4px auto 0;
-      }
-      .cal-day.has-weekly::after { background: #5DA05D; }
+    @media (max-width:480px) {
+      .cal-day { min-height:56px; }
+      .cal-event { display:none; }
+      .cal-day.has-event::after { content:''; display:block; width:6px; height:6px; border-radius:50%; background:var(--saffron); margin:4px auto 0; }
+      .cal-day.has-weekly::after { background:#5DA05D; }
     }
   </style>
 </head>
@@ -391,7 +84,6 @@
   <div class="top-bar">
     <div class="container">
       <span class="tagline">ॐ Serve All Beings As Service To God</span>
-      
     </div>
   </div>
   <div class="ornament-border"></div>
@@ -433,7 +125,7 @@
         <div>
           <h3>Sri Vishnu Sahasranama Parayanam</h3>
           <p>Weekly group recitation for everyone's health and well-being.</p>
-          <div class="rb-detail">📅 Every Saturday &nbsp;·&nbsp; 🕕 6:00 PM &nbsp;·&nbsp; 📍 HARI Temple</div>
+          <div class="rb-detail">📅 Every Saturday · 🕕 6:00 PM · 📍 HARI Temple</div>
         </div>
       </div>
 
@@ -489,6 +181,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
+        <div class="footer-brand">
           <h3>JET Harrisburg</h3>
           <p>Serving the spiritual and cultural needs of the community in the greater Harrisburg, PA area.</p>
           <div class="footer-social">
@@ -528,46 +221,72 @@
   <script src="../js/main.js"></script>
   <script>
   (function() {
-    var EVENTS_JSON = '../assets/events.json';
-    var allEvents = [];
+
+    /*
+     * ============================================================
+     * EVENT DATA — Edit this array to add/remove events.
+     *
+     * For one-time events:
+     *   { name: "...", date: "YYYY-MM-DD", time: "...", location: "...", description: "...", recurring: false, category: "festival" }
+     *
+     * For recurring weekly events:
+     *   { name: "...", date: "every-saturday", time: "...", location: "...", description: "...", recurring: true, day: "Saturday", category: "weekly" }
+     * ============================================================
+     */
+    var allEvents = [
+      {
+        name: "Sri Vishnu Sahasranama Parayanam",
+        date: "every-saturday",
+        time: "6:00 PM",
+        location: "HARI Temple",
+        description: "Weekly group recitation of Sri Vishnu Sahasranama Sthotram for everyone's health and well-being.",
+        recurring: true,
+        day: "Saturday",
+        category: "weekly"
+      },
+      {
+        name: "Sri Sita Rama Kalyanam",
+        date: "2026-03-29",
+        time: "TBD", // "01:00 PM – 7:00 PM",
+        location: "HARI Temple",
+        description: "The divine celestial wedding of Lord Sri Rama and Goddess Sita. A grand celebration with elaborate decorations, rituals, and prasadam.",
+        recurring: false,
+        category: "festival"
+      },
+      {
+        name: "Deepostavam",
+        date: "2025-11-01",
+        time: "5:00 PM – 9:00 PM",
+        location: "HARI Temple",
+        description: "Festival of lights celebrated with the community — cultural performances, group prayers, and a grand feast.",
+        recurring: false,
+        category: "festival"
+      }
+    ];
+
+    // ============================================================
+    // Calendar logic — no need to edit below this line
+    // ============================================================
+
     var currentMonth, currentYear;
     var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     var DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    var DAY_MAP = {'sunday':0,'monday':1,'tuesday':2,'wednesday':3,'thursday':4,'friday':5,'saturday':6};
-
+    var DAY_MAP = {sunday:0,monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     var today = new Date();
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
 
-    // Load events
-    // Embedded fallback data (also kept in assets/events.json — update EITHER place)
-    var FALLBACK_EVENTS = [{"name":"Sri Vishnu Sahasranama Parayanam","date":"every-saturday","time":"6:00 PM","location":"HARI Temple","description":"Weekly group recitation of Sri Vishnu Sahasranama Sthotram for everyone's health and well-being.","recurring":true,"day":"Saturday","category":"weekly"},{"name":"Sri Sita Rama Kalyanam","date":"2026-04-12","time":"10:00 AM – 1:00 PM","location":"TBD","description":"The divine celestial wedding of Lord Sri Rama and Goddess Sita. A grand celebration with elaborate decorations, rituals, and prasadam.","recurring":false,"category":"festival"},{"name":"Vaikunta Ekadashi","date":"2026-01-17","time":"6:00 AM – 8:00 PM","location":"HARI Temple","description":"Special prayers and celebrations marking the auspicious day of Vaikunta Ekadashi.","recurring":false,"category":"festival"},{"name":"Deepavali Celebrations","date":"2025-11-01","time":"5:00 PM – 9:00 PM","location":"Community Center","description":"Festival of lights celebrated with the community — cultural performances, group prayers, and a grand feast.","recurring":false,"category":"festival"},{"name":"Navaratri & Dasara","date":"2025-10-02","time":"6:00 PM – 9:00 PM","location":"HARI Temple","description":"Nine nights of divine celebrations honoring Goddess Durga, followed by Vijaya Dashami festivities.","recurring":false,"category":"festival"}];
+    renderCalendar();
+    renderListView();
 
-    function initEvents(events) {
-      allEvents = events;
-      renderCalendar();
-      renderListView();
-    }
-
-    // Try fetching JSON first, fall back to embedded data
-    fetch(EVENTS_JSON)
-      .then(function(r) { if (!r.ok) throw new Error('Failed'); return r.json(); })
-      .then(function(events) { initEvents(events); })
-      .catch(function() { initEvents(FALLBACK_EVENTS); });
-
-    // --- Calendar Rendering ---
     function getEventsForDate(year, month, day) {
       var date = new Date(year, month, day);
       var dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
       var dayOfWeek = date.getDay();
       var results = [];
-
       allEvents.forEach(function(ev) {
         if (ev.recurring && ev.day) {
-          var targetDay = DAY_MAP[ev.day.toLowerCase()];
-          if (dayOfWeek === targetDay) {
-            results.push(ev);
-          }
+          if (dayOfWeek === DAY_MAP[ev.day.toLowerCase()]) results.push(ev);
         } else if (ev.date === dateStr) {
           results.push(ev);
         }
@@ -577,101 +296,60 @@
 
     function renderCalendar() {
       document.getElementById('cal-title').textContent = MONTHS[currentMonth] + ' ' + currentYear;
-
       var grid = document.getElementById('cal-grid');
       var html = '';
-
-      // Day headers
-      DAYS_SHORT.forEach(function(d) {
-        html += '<div class="cal-day-header">' + d + '</div>';
-      });
-
+      DAYS_SHORT.forEach(function(d) { html += '<div class="cal-day-header">' + d + '</div>'; });
       var firstDay = new Date(currentYear, currentMonth, 1).getDay();
       var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       var daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
-
       var todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
-
-      // Previous month fill
       for (var p = firstDay - 1; p >= 0; p--) {
-        var pDay = daysInPrev - p;
-        html += '<div class="cal-day other-month"><span class="cal-day-number">' + pDay + '</span></div>';
+        html += '<div class="cal-day other-month"><span class="cal-day-number">' + (daysInPrev - p) + '</span></div>';
       }
-
-      // Current month days
       for (var d = 1; d <= daysInMonth; d++) {
         var dateStr = currentYear + '-' + String(currentMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
         var isToday = dateStr === todayStr;
         var events = getEventsForDate(currentYear, currentMonth, d);
         var hasEvent = events.length > 0;
         var hasWeekly = events.some(function(e) { return e.category === 'weekly'; });
-
         var classes = 'cal-day';
         if (isToday) classes += ' today';
         if (hasEvent) classes += ' has-event';
         if (hasWeekly) classes += ' has-weekly';
-
-        html += '<div class="' + classes + '">';
-        html += '<span class="cal-day-number">' + d + '</span>';
-
+        html += '<div class="' + classes + '"><span class="cal-day-number">' + d + '</span>';
         events.forEach(function(ev) {
-          var cat = ev.category || 'festival';
           var eName = ev.name.length > 22 ? ev.name.substring(0,20) + '…' : ev.name;
-          html += '<div class="cal-event ' + cat + '" data-event=\'' + JSON.stringify(ev).replace(/'/g, '&#39;') + '\'>' + eName + '</div>';
+          html += '<div class="cal-event ' + (ev.category||'festival') + '" data-event=\'' + JSON.stringify(ev).replace(/'/g, '&#39;') + '\'>' + eName + '</div>';
         });
-
         html += '</div>';
       }
-
-      // Next month fill
       var totalCells = firstDay + daysInMonth;
       var remaining = (7 - (totalCells % 7)) % 7;
       for (var n = 1; n <= remaining; n++) {
         html += '<div class="cal-day other-month"><span class="cal-day-number">' + n + '</span></div>';
       }
-
       grid.innerHTML = html;
-
-      // Add click handlers to events
       grid.querySelectorAll('.cal-event').forEach(function(el) {
         el.addEventListener('click', function(e) {
           e.stopPropagation();
-          var ev = JSON.parse(el.getAttribute('data-event'));
-          showEventPopup(ev);
+          showEventPopup(JSON.parse(el.getAttribute('data-event')));
         });
       });
     }
 
-    // Nav buttons
-    document.getElementById('cal-prev').addEventListener('click', function() {
-      currentMonth--;
-      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-      renderCalendar();
-    });
-    document.getElementById('cal-next').addEventListener('click', function() {
-      currentMonth++;
-      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-      renderCalendar();
-    });
-    document.getElementById('cal-today').addEventListener('click', function() {
-      currentMonth = today.getMonth();
-      currentYear = today.getFullYear();
-      renderCalendar();
-    });
+    document.getElementById('cal-prev').addEventListener('click', function() { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); });
+    document.getElementById('cal-next').addEventListener('click', function() { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); });
+    document.getElementById('cal-today').addEventListener('click', function() { currentMonth = today.getMonth(); currentYear = today.getFullYear(); renderCalendar(); });
 
-    // --- Event Popup ---
     function showEventPopup(ev) {
       var cat = ev.category || 'festival';
-      var catLabel = cat === 'weekly' ? 'Weekly' : 'Festival';
       var dateDisplay = ev.recurring ? 'Every ' + ev.day : formatDate(ev.date);
-
-      var html = '<span class="ep-category ' + cat + '">' + catLabel + '</span>';
+      var html = '<span class="ep-category ' + cat + '">' + (cat === 'weekly' ? 'Weekly' : 'Festival') + '</span>';
       html += '<h3>' + ev.name + '</h3>';
       html += '<div class="ep-detail"><span class="ep-detail-icon">📅</span><span>' + dateDisplay + '</span></div>';
       if (ev.time) html += '<div class="ep-detail"><span class="ep-detail-icon">🕐</span><span>' + ev.time + '</span></div>';
       if (ev.location) html += '<div class="ep-detail"><span class="ep-detail-icon">📍</span><span>' + ev.location + '</span></div>';
       if (ev.description) html += '<p class="ep-desc">' + ev.description + '</p>';
-
       document.getElementById('ep-content').innerHTML = html;
       document.getElementById('ep-popup').classList.add('active');
       document.getElementById('ep-overlay').classList.add('active');
@@ -681,12 +359,10 @@
       document.getElementById('ep-popup').classList.remove('active');
       document.getElementById('ep-overlay').classList.remove('active');
     }
-
     document.getElementById('ep-close').addEventListener('click', closePopup);
     document.getElementById('ep-overlay').addEventListener('click', closePopup);
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePopup(); });
 
-    // --- List View ---
     function formatDate(dateStr) {
       var parts = dateStr.split('-');
       return MONTHS[parseInt(parts[1])-1] + ' ' + parseInt(parts[2]) + ', ' + parts[0];
@@ -700,51 +376,29 @@
       var past = oneTime.filter(function(e) { return e.date < todayStr; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
 
       var upHtml = '';
-
-      // Show recurring events first in upcoming
-      recurring.forEach(function(ev) {
-        upHtml += buildListItem(ev);
-      });
-
-      if (!upcoming.length && !recurring.length) {
-        upHtml = '<p style="text-align:center; color:var(--text-muted); font-family:Lora,serif;"><em>No upcoming events scheduled. Check back soon!</em></p>';
-      }
-      upcoming.forEach(function(ev) {
-        upHtml += buildListItem(ev);
-      });
+      recurring.forEach(function(ev) { upHtml += buildListItem(ev); });
+      if (!upcoming.length && !recurring.length) upHtml = '<p style="text-align:center; color:var(--text-muted); font-family:Lora,serif;"><em>No upcoming events scheduled. Check back soon!</em></p>';
+      upcoming.forEach(function(ev) { upHtml += buildListItem(ev); });
       document.getElementById('event-list-upcoming').innerHTML = upHtml;
 
       var pastHtml = '';
-      if (!past.length) {
-        pastHtml = '<p style="text-align:center; color:var(--text-muted); font-family:Lora,serif;"><em>No past events yet.</em></p>';
-      }
-      past.forEach(function(ev) {
-        pastHtml += buildListItem(ev);
-      });
+      if (!past.length) pastHtml = '<p style="text-align:center; color:var(--text-muted); font-family:Lora,serif;"><em>No past events yet.</em></p>';
+      past.forEach(function(ev) { pastHtml += buildListItem(ev); });
       document.getElementById('event-list-past').innerHTML = pastHtml;
     }
 
     function buildListItem(ev) {
       var html = '<div class="event-list-item">';
-
       if (ev.recurring) {
-        // Recurring event — show day icon instead of date box
         var dayShort = ev.day ? ev.day.substring(0,3).toUpperCase() : '—';
-        html += '<div class="el-date-box" style="background:#EBF5EB; border-color:#B8DDB8;">';
-        html += '<div class="el-month" style="color:#3A7D3A;">EVERY</div>';
-        html += '<div class="el-day" style="font-size:1rem; color:#2E5E2E;">' + dayShort + '</div>';
-        html += '</div>';
+        html += '<div class="el-date-box" style="background:#EBF5EB; border-color:#B8DDB8;"><div class="el-month" style="color:#3A7D3A;">EVERY</div><div class="el-day" style="font-size:1rem; color:#2E5E2E;">' + dayShort + '</div></div>';
       } else {
         var parts = ev.date.split('-');
-        var monthShort = MONTHS[parseInt(parts[1])-1].substring(0,3).toUpperCase();
-        var day = parseInt(parts[2]);
-        html += '<div class="el-date-box"><div class="el-month">' + monthShort + '</div><div class="el-day">' + day + '</div></div>';
+        html += '<div class="el-date-box"><div class="el-month">' + MONTHS[parseInt(parts[1])-1].substring(0,3).toUpperCase() + '</div><div class="el-day">' + parseInt(parts[2]) + '</div></div>';
       }
-
-      html += '<div class="el-content">';
-      html += '<h3>' + ev.name + '</h3>';
-      html += '<div class="el-meta">';
+      html += '<div class="el-content"><h3>' + ev.name + '</h3><div class="el-meta">';
       if (ev.recurring && ev.day) html += '<span>📅 Every ' + ev.day + '</span>';
+      else if (ev.date) html += '<span>📅 ' + formatDate(ev.date) + '</span>';
       if (ev.time) html += '<span>🕐 ' + ev.time + '</span>';
       if (ev.location) html += '<span>📍 ' + ev.location + '</span>';
       html += '</div>';
@@ -753,7 +407,6 @@
       return html;
     }
 
-    // --- View Toggle ---
     document.querySelectorAll('.view-toggle button').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('.view-toggle button').forEach(function(b) { b.classList.remove('active'); });
