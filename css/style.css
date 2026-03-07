@@ -280,7 +280,7 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 680px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
