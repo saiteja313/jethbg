@@ -183,12 +183,10 @@
     var FLYERS_JSON = '../assets/flyers/flyers.json';
     var FLYERS_DIR  = '../assets/flyers/';
 
-    fetch(FLYERS_JSON)
-      .then(function(res) {
-        if (!res.ok) throw new Error('Could not load flyers.json (' + res.status + ')');
-        return res.json();
-      })
-      .then(function(flyers) {
+    // Embedded fallback data (also kept in assets/flyers/flyers.json — update EITHER place)
+    var FALLBACK_DATA = [{"name":"Sri Sita Rama Kalyanam","file":"sita-rama-kalyanam-2026.jpg","date":"April 2026","year":2026,"category":"festival"},{"name":"Holi Celebrations","file":"holi-2026.jpg","date":"March 2026","year":2026,"category":"festival"},{"name":"Vaikunta Ekadashi","file":"vaikunta-ekadashi-2026.jpg","date":"January 2026","year":2026,"category":"festival"},{"name":"Deepavali Celebrations","file":"deepavali-2025.jpg","date":"November 2025","year":2025,"category":"festival"},{"name":"Navaratri & Dasara","file":"navaratri-2025.jpg","date":"October 2025","year":2025,"category":"festival"},{"name":"Sri Krishna Janmashtami","file":"janmashtami-2025.jpg","date":"August 2025","year":2025,"category":"festival"},{"name":"Sri Sita Rama Kalyanam 2025","file":"sita-rama-kalyanam-2025.jpg","date":"April 2025","year":2025,"category":"festival"}];
+
+    function loadFlyers(flyers) {
         if (!flyers.length) {
           container.innerHTML =
             '<div class="empty-state">' +
@@ -287,16 +285,16 @@
             });
           });
         }
+      }
+
+    // Try fetching JSON first, fall back to embedded data
+    fetch(FLYERS_JSON)
+      .then(function(res) {
+        if (!res.ok) throw new Error('fetch failed');
+        return res.json();
       })
-      .catch(function(err) {
-        console.error('Flyers load error:', err);
-        container.innerHTML =
-          '<div class="empty-state">' +
-            '<div class="empty-icon">⚠️</div>' +
-            '<p>Unable to load flyers at this time. Please try again later.</p>' +
-            '<p style="font-size:0.82rem; margin-top:8px; color:var(--text-muted);">Error: ' + err.message + '</p>' +
-          '</div>';
-      });
+      .then(function(data) { loadFlyers(data); })
+      .catch(function() { loadFlyers(FALLBACK_DATA); });
   })();
   </script>
 </body>

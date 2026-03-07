@@ -540,17 +540,20 @@
     currentYear = today.getFullYear();
 
     // Load events
+    // Embedded fallback data (also kept in assets/events.json — update EITHER place)
+    var FALLBACK_EVENTS = [{"name":"Sri Vishnu Sahasranama Parayanam","date":"every-saturday","time":"6:00 PM","location":"HARI Temple","description":"Weekly group recitation of Sri Vishnu Sahasranama Sthotram for everyone's health and well-being.","recurring":true,"day":"Saturday","category":"weekly"},{"name":"Sri Sita Rama Kalyanam","date":"2026-04-12","time":"10:00 AM – 1:00 PM","location":"TBD","description":"The divine celestial wedding of Lord Sri Rama and Goddess Sita. A grand celebration with elaborate decorations, rituals, and prasadam.","recurring":false,"category":"festival"},{"name":"Vaikunta Ekadashi","date":"2026-01-17","time":"6:00 AM – 8:00 PM","location":"HARI Temple","description":"Special prayers and celebrations marking the auspicious day of Vaikunta Ekadashi.","recurring":false,"category":"festival"},{"name":"Deepavali Celebrations","date":"2025-11-01","time":"5:00 PM – 9:00 PM","location":"Community Center","description":"Festival of lights celebrated with the community — cultural performances, group prayers, and a grand feast.","recurring":false,"category":"festival"},{"name":"Navaratri & Dasara","date":"2025-10-02","time":"6:00 PM – 9:00 PM","location":"HARI Temple","description":"Nine nights of divine celebrations honoring Goddess Durga, followed by Vijaya Dashami festivities.","recurring":false,"category":"festival"}];
+
+    function initEvents(events) {
+      allEvents = events;
+      renderCalendar();
+      renderListView();
+    }
+
+    // Try fetching JSON first, fall back to embedded data
     fetch(EVENTS_JSON)
       .then(function(r) { if (!r.ok) throw new Error('Failed'); return r.json(); })
-      .then(function(events) {
-        allEvents = events;
-        renderCalendar();
-        renderListView();
-      })
-      .catch(function() {
-        allEvents = [];
-        renderCalendar();
-      });
+      .then(function(events) { initEvents(events); })
+      .catch(function() { initEvents(FALLBACK_EVENTS); });
 
     // --- Calendar Rendering ---
     function getEventsForDate(year, month, day) {
