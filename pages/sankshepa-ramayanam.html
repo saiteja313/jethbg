@@ -58,7 +58,52 @@
       font-size: 0.85rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+    .toolbar-title:hover { color: #ffe0a0; }
+    .toolbar-title .nav-arrow {
+      font-size: 0.6rem;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .toolbar-title.open .nav-arrow { transform: rotate(180deg); }
+
+    /* ── Section nav dropdown ── */
+    .section-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 6px;
+      background: #3d1f0a;
+      border: 1px solid #7a5230;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      min-width: 280px;
+      z-index: 600;
+      overflow: hidden;
+    }
+    .section-nav.open { display: block; }
+    .section-nav a {
+      display: block;
+      padding: 10px 16px;
+      color: #f0d9b0;
+      text-decoration: none;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      border-bottom: 1px solid rgba(122,82,48,0.3);
+      transition: background 0.15s;
+    }
+    .section-nav a:last-child { border-bottom: none; }
+    .section-nav a:hover { background: #5a2e0e; }
+    .section-nav a.active-section { color: #f5c97a; background: rgba(200,132,58,0.15); }
     .font-controls {
       display: flex;
       align-items: center;
@@ -225,6 +270,8 @@
       .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 118px; }
       body.header-hidden .toolbar { top: 0; }
       body.header-hidden .section-banner { top: 43px; }
+      .section-nav { min-width: 240px; }
+      .section-nav a { font-size: 0.82rem; padding: 9px 12px; }
     }
   </style>
 </head>
@@ -272,7 +319,18 @@
 
   <!-- Sticky Toolbar -->
   <nav class="toolbar" id="toolbar">
-    <div class="toolbar-title">Sankshe:pa Ra:ma:yanam</div>
+    <div class="toolbar-title" id="navToggle" aria-expanded="false" aria-controls="sectionNav">
+      <span id="navLabel">Sankshe:pa Ra:ma:yanam</span>
+      <span class="nav-arrow">▼</span>
+      <div class="section-nav" id="sectionNav" role="menu">
+        <a href="#sec-thaniyans" role="menuitem">1. Obeisance to the Lineage of A:cha:ryas</a>
+        <a href="#sec-prayers" role="menuitem">2. Prayers</a>
+        <a href="#sec-mahima" role="menuitem">3. Sri: Ra:ma:yana Mahima</a>
+        <a href="#sec-praarthana" role="menuitem">4. Sri: Ra:ma Pra:rtthana:</a>
+        <a href="#sec-parayana" role="menuitem">5. Pa:ra:yana — Sri: Ra:ma:yana Kattha:</a>
+        <a href="#sec-concluding" role="menuitem">6. Concluding Slo:kas</a>
+      </div>
+    </div>
     <div class="font-controls">
       <span>TEXT SIZE</span>
       <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
@@ -1312,10 +1370,68 @@
   function onScroll() {
     handleHeaderVisibility();
     updateBanner();
+    if (typeof updateActiveNavLink === 'function') updateActiveNavLink();
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   updateBanner();
+
+  // ── Section navigation dropdown ────────────────────────────
+  const navToggle = document.getElementById('navToggle');
+  const sectionNav = document.getElementById('sectionNav');
+  const navLinks = sectionNav.querySelectorAll('a');
+
+  navToggle.addEventListener('click', (e) => {
+    // Don't toggle if clicking a link inside the dropdown
+    if (e.target.closest('.section-nav')) return;
+    const isOpen = sectionNav.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Handle section link clicks — smooth scroll + close dropdown
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').slice(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        // Calculate offset: toolbar height + some padding
+        const toolbarHeight = toolbarEl.offsetHeight;
+        const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - toolbarHeight - 10;
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
+      // Close the dropdown
+      sectionNav.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navToggle.contains(e.target)) {
+      sectionNav.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Highlight active section in dropdown
+  function updateActiveNavLink() {
+    const threshold = toolbarEl.getBoundingClientRect().bottom + 30;
+    let activeId = null;
+    for (const sec of sections) {
+      const el = document.getElementById(sec.id);
+      if (el && el.getBoundingClientRect().top <= threshold) activeId = sec.id;
+    }
+    navLinks.forEach(link => {
+      const linkTarget = link.getAttribute('href').slice(1);
+      link.classList.toggle('active-section', linkTarget === activeId);
+    });
+  }
+
+  updateActiveNavLink();
 </script>
 <script src="../js/main.js"></script>
 </body>
