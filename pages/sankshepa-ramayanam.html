@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en" class="fs-3">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sankshe:pa Ra:ma:yanam</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Font-size scale (class on <html>) ── */
+    html.fs-1 { font-size: 14px; }
+    html.fs-2 { font-size: 16px; }
+    html.fs-3 { font-size: 18px; }
+    html.fs-4 { font-size: 20px; }
+    html.fs-5 { font-size: 23px; }
+    html.fs-6 { font-size: 26px; }
+    html.fs-7 { font-size: 30px; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: #fdf8f0;
+      color: #2a2016;
+      line-height: 1.85;
+      min-height: 100vh;
+    }
+
+    /* ── Sticky toolbar ── */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #3d1f0a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+    .toolbar-title {
+      font-family: 'Cinzel', serif;
+      color: #f5c97a;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .font-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .font-controls span {
+      color: #c8a96e;
+      font-size: 0.78rem;
+      margin-right: 4px;
+      letter-spacing: 0.06em;
+    }
+    .font-btn {
+      background: none;
+      border: 1.5px solid #7a5230;
+      color: #f0d9b0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'EB Garamond', serif;
+      transition: background 0.15s, border-color 0.15s;
+      line-height: 1;
+      padding: 5px 13px;
+      font-size: 1rem;
+    }
+    .font-btn:hover { background: #5a2e0e; border-color: #c8843a; }
+    .font-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* ── Title block ── */
+    .book-header {
+      text-align: center;
+      padding: 40px 0 32px;
+      border-bottom: 2px solid #c8843a;
+      margin-bottom: 48px;
+    }
+    .book-header .om {
+      font-size: 2.4rem;
+      color: #b03a10;
+      line-height: 1;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .book-header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #3d1f0a;
+      letter-spacing: 0.08em;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .book-header .subtitle {
+      font-style: italic;
+      color: #7a5230;
+      font-size: 1rem;
+    }
+
+    /* ── Section headings ── */
+    .section-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #b03a10;
+      border-top: 1px solid #dac8a8;
+      padding-top: 36px;
+      margin: 48px 0 20px;
+    }
+    .sub-heading {
+      font-size: 0.85rem;
+      color: #7a5230;
+      font-style: italic;
+      margin-bottom: 24px;
+      margin-top: -8px;
+    }
+
+    /* ── Verse block ── */
+    .verse {
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid #e8dcc8;
+    }
+    .verse:last-child { border-bottom: none; }
+    .verse-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: #b03a10;
+      display: inline-block;
+      margin-bottom: 10px;
+      background: #f5ebe0;
+      padding: 2px 10px;
+      border-radius: 3px;
+      border: 1px solid #dac8a8;
+    }
+    .verse-text {
+      font-size: 1.05rem;
+      line-height: 2.0;
+      color: #2a2016;
+      text-align: justify;
+      font-weight: 500;
+    }
+    .verse-text .line { display: block; }
+    .highlight { color: #8b1a00; }
+
+    /* ── Ending dedication ── */
+    .dedication {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 2px solid #c8843a;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: #3d1f0a;
+      letter-spacing: 0.06em;
+    }
+    .dedication .line2 {
+      color: #b03a10;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #c8843a, #e8a84a);
+      width: 0%;
+      z-index: 200;
+      transition: width 0.1s;
+    }
+
+    /* ── Sticky section banner ── */
+    .section-banner {
+      position: sticky;
+      top: 45px;
+      z-index: 90;
+      background: #f5ebe0;
+      border-bottom: 1px solid #dac8a8;
+      border-top: 1px solid #dac8a8;
+      padding: 6px 20px;
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: #7a3a10;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .section-banner span { opacity: 0.6; margin: 0 8px; }
+
+    /* ── Mobile ── */
+    @media (max-width: 520px) {
+      .page { padding: 24px 16px 60px; }
+      .toolbar { padding: 9px 14px; }
+      .toolbar-title { font-size: 0.72rem; }
+      .book-header h1 { font-size: 1.25rem; }
+      .book-header .om { font-size: 2rem; }
+      .verse-text { text-align: left; }
+      .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 43px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="toolbar">
+  <div class="toolbar-title">Sankshe:pa Ra:ma:yanam</div>
+  <div class="font-controls">
+    <span>TEXT SIZE</span>
+    <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
+    <button class="font-btn" id="btnIncrease" aria-label="Increase font size">A+</button>
+  </div>
+</nav>
+
+<div class="section-banner" id="sectionBanner">
+  <span>☙</span>&nbsp;<span id="bannerText">Sankshe:pa Ra:ma:yanam</span>&nbsp;<span>❧</span>
+</div>
+
+<main class="page">
+
+  <header class="book-header">
+    <span class="om">ॐ</span>
+    <h1>Sankshe:pa Ra:ma:yanam</h1>
+    <div class="subtitle">Sri:mathe: Ra:ma:nuja:ya Namaha &nbsp;·&nbsp; Sri:ra:machandra Parabramhane: Namaha</div>
+    <div class="subtitle" style="margin-top:6px">by Sage Va:lmi:ki &nbsp;·&nbsp; from Sri: Ra:ma:yanam — Bala Ka:nda — Sarga 1</div>
+  </header>
+
+  <!-- SECTION 1 -->
+  <div class="section-heading" id="sec-thaniyans" style="border-top:none;padding-top:0;margin-top:0;">Obeisance to the Lineage of A:cha:ryas</div>
+  <div class="sub-heading">Sri: Varavaramuni Thaniyan — blessed by Lord Rangana:ttha</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 1</div>
+    <div class="verse-text">
+      <span class="line">sri:sai:le:sa daya:pa:thram dhi: bhakthya:di guna:rnavam |</span>
+      <span class="line">yathi:ndra pravanam vande: ramya ja:ma:tharam munim || 1</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri: Guru Parampara Thaniyan — by Ku:raththa:lva:n</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 2</div>
+    <div class="verse-text">
+      <span class="line">lakshmi:na:ttha sama:rambha:m na:ttha ya:muna madhyama:m |</span>
+      <span class="line">asmad a:cha:rya paryantha:m vande: guru parampara:m || 2</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri: Ra:ma:nuja:cha:rya Thaniyan — by Ku:raththa:lva:n</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 3</div>
+    <div class="verse-text">
+      <span class="line">yo: nithyamachyutha pada:mbuja yugma rukma</span>
+      <span class="line">vya:mo:hathas thadithara:ni thruna:ya me:ne: |</span>
+      <span class="line">asmadguro:r bhagavatho:sya dayaikasindho:ho</span>
+      <span class="line">ra:ma:nujasya charanau saranam prapadye: || 3</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri: Sattako:pamuni Thaniyan — by A:lavanda:r</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 4</div>
+    <div class="verse-text">
+      <span class="line">ma:tha: pitha: yuvathayasthanaya: vibhu:thihi</span>
+      <span class="line">sarvam yade:va niyame:na madanvaya:na:m |</span>
+      <span class="line">a:dyasya nah kulapathe:r vakula:bhira:mam</span>
+      <span class="line">sri:math thadanghriyugalam pranama:mi mu:rdhna: || 4</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri: A:lva:rs Thaniyan — by Sri: Para:sara Bhattar</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 5</div>
+    <div class="verse-text">
+      <span class="line">bhu:tham sarascha maha:da:hvaya bhattana:ttha</span>
+      <span class="line">sri:bhakthisa:ra kulase:khara yo:giva:ha:n |</span>
+      <span class="line">bhaktha:nghrire:nu paraka:la yathi:ndra misra:n</span>
+      <span class="line">sri:math para:nkusa munim pranatho:smi nithyam || 5</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri:sailapu:rna Thaniyan</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 6</div>
+    <div class="verse-text">
+      <span class="line">pitha:mahasya:pi pitha:maha:ya pra:che:thasa:de:sa phalaprada:ya</span>
+      <span class="line">sri:bhashyaka:ro:ththamade:sika:ya sri:sailapu:rna:ya namo: nama:stha:th || 6</span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-heading" id="sec-prayers">Prayers</div>
+  <div class="sub-heading">Vishnu Prayer</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 7</div>
+    <div class="verse-text">
+      <span class="line">sukla:mbara dharam vishnum sasivarnam chathurbhujam</span>
+      <span class="line">prasanna vadanam dhya:ye:th sarva vighno:pasa:nthaye: || 7</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Vishvakse:na Prayer</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 8</div>
+    <div class="verse-text">
+      <span class="line">yasya dvirada vakthra:dya:ha pa:rishadya:h parassatham</span>
+      <span class="line">vighnam nighnanthi sathatham vishvakse:nam thama:sraye: || 8</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Sri: Hayagri:va Prayer</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 9</div>
+    <div class="verse-text">
+      <span class="line">jna:na:nanda mayam de:vam nirmala sphatika:kruthim</span>
+      <span class="line">a:dha:ram sarvavidya:nam hayagri:vam upa:smahe: || 9</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 10</div>
+    <div class="verse-text">
+      <span class="line">abhangura kala:da:na stthu:la lakshyathvam i:yushe:</span>
+      <span class="line">thunga:ya mahase: thasmai thuranga:ya mukhe: namaha || 10</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Va:lmi:ki Prayer</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 11</div>
+    <div class="verse-text">
+      <span class="line">ku:jantham <span class="highlight">ra:ma ra:me</span>:thi madhuram madhura:ksharam</span>
+      <span class="line">a:ruhya kavitha:sa:kha:m vande: va:lmi:ki ko:kilam || 11</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 12</div>
+    <div class="verse-text">
+      <span class="line">va:lmi:ke:r muni simhasya kavitha: vana cha:rinaha</span>
+      <span class="line">srunvan <span class="highlight">ra:ma</span>kattha: na:dam ko: na ya:thi para:m gathim || 12</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 13</div>
+    <div class="verse-text">
+      <span class="line">yah piban sathatham <span class="highlight">ra:ma</span> charitha:mrutha sa:garam</span>
+      <span class="line">athrupthastham munim vande: pra:che:thasam akalmasham || 13</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">A:njane:ya Prayer</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 14</div>
+    <div class="verse-text">
+      <span class="line">go:shpadi: krutha va:ra:sim masaki:krutha ra:kshasam</span>
+      <span class="line"><span class="highlight">ra:ma:yana</span> maha:ma:la: rathnam vande:nila:thmajam || 14</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 15</div>
+    <div class="verse-text">
+      <span class="line">anjana:nandanam vi:ram ja:naki: so:kana:sanam</span>
+      <span class="line">kapi:sam aksha hantha:ram vande: lanka: bhayankaram || 15</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 16</div>
+    <div class="verse-text">
+      <span class="line">a:mishi:krutha ma:rtha:ndam go:shpadi:krutha sa:garam</span>
+      <span class="line">thruni:krutha dasagri:vam a:njane:yam nama:myaham || 16</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 17</div>
+    <div class="verse-text">
+      <span class="line">mano:javam ma:ruthathulya ve:gam</span>
+      <span class="line">jithe:ndriyam buddhimatha:m varishttam</span>
+      <span class="line">va:tha:thmajam va:narayu:ttha mukhyam</span>
+      <span class="line">sri:<span class="highlight">ra:ma</span>du:tham sirasa: nama:mi || 17</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 18</div>
+    <div class="verse-text">
+      <span class="line">ullanghya sindho:ssalilam sali:lam</span>
+      <span class="line">yasso:kavanhim janaka:thmaja:ya:ha</span>
+      <span class="line">a:da:ya the:naiva dada:ha lanka:m</span>
+      <span class="line">nama:mi tham pra:njalir a:njane:yam || 18</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 19</div>
+    <div class="verse-text">
+      <span class="line">a:njane:yam athipa:tala:nanam ka:nchana:dri kamani:ya vigraham</span>
+      <span class="line">pa:rija:tha tharumu:la va:sinam bha:vaya:mi pavama:na nandanam || 19</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 20</div>
+    <div class="verse-text">
+      <span class="line">yathra yathra raghuna:ttha ki:rthanam thathra thathra kruthamasthaka:njalim</span>
+      <span class="line">bha:shpava:ri paripu:rna lo:chanam ma:ruthim namatha ra:kshasa:nthakam || 20</span>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-heading" id="sec-mahima">Sri: Ra:ma:yana Mahima</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 21</div>
+    <div class="verse-text">
+      <span class="line">ve:dave:dye: pare: pumsi ja:the: dasarattha:thmaje:</span>
+      <span class="line">ve:dah pra:che:thasa:da:si:th sa:ksha:d <span class="highlight">ra:ma:yana</span>:thmana: || 21</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 22</div>
+    <div class="verse-text">
+      <span class="line">charitham raghuna:tthasya sathako:ti pravistharam</span>
+      <span class="line">e:kaikam aksharam pro:ktham maha:pa:thaka na:sanam || 22</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 23</div>
+    <div class="verse-text">
+      <span class="line">srunvan <span class="highlight">ra:ma:yanam</span> bhakthya: yah pa:dam padame:va va:</span>
+      <span class="line">sa ya:thi bramhanah sttha:nam bramhana: pu:jyathe: sada: || 23</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 24</div>
+    <div class="verse-text">
+      <span class="line">va:lmi:kigiri sambhu:tha: <span class="highlight">ra:ma</span>sa:gara ga:mini:</span>
+      <span class="line">puna:thi bhuvanam punya: <span class="highlight">ra:ma:yana</span> maha:nadi: || 24</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 25</div>
+    <div class="verse-text">
+      <span class="line">slo:kasa:ra jala:ki:rnam sargakallo:la sankulam</span>
+      <span class="line">ka:ndagra:ha maha:mi:nam vande: <span class="highlight">ra:ma:yana</span>:rnavam || 25</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 26</div>
+    <div class="verse-text">
+      <span class="line">yah karna:njali samputair aharahahs samyak pibathya:dara:th</span>
+      <span class="line">va:lmi:ke:r vadana:ravinda galitham <span class="highlight">ra:ma:yana</span>:khyam madhu</span>
+      <span class="line">janmavya:dhi jara:vipatthimaranair athyantha so:padravam</span>
+      <span class="line">samsa:ram sa viha:ya gachchhathi puma:n vishno:h padam sa:svatham || 26</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 27</div>
+    <div class="verse-text">
+      <span class="line">thadupagatha sama:sa sandhiyo:gam</span>
+      <span class="line">sama madhuro:panatha:rttha va:kyabaddham</span>
+      <span class="line">raghuvara charitham muniprani:tham</span>
+      <span class="line">dasasirasascha vadham nisa:ma yadhvam || 27</span>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-heading" id="sec-praarthana">Sri: Ra:ma Pra:rtthana:</div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 28</div>
+    <div class="verse-text">
+      <span class="line">sri:<span class="highlight">ra:ghavam</span> dasarattha:thmajam aprame:yam</span>
+      <span class="line">si:tha:pathim raghukula:nvaya rathnadi:pam</span>
+      <span class="line">a:ja:nuba:hum aravinda dala:ya tha:ksham</span>
+      <span class="line"><span class="highlight">ra:mam</span> nisa:chara vina:sakaram nama:mi || 28</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 29</div>
+    <div class="verse-text">
+      <span class="line">vaide:hi: sahitham sura drumathale: haime: maha:mandape:</span>
+      <span class="line">madhye: pushpaka ma:sane: manimaye: vi:ra:sane: sustthitham</span>
+      <span class="line">agre: va:chayathi prabhanjana suthe: thaththvam munibhyah param</span>
+      <span class="line">vya:khya:ntham bharatha:dibhih parivrutham <span class="highlight">ra:mam</span> bhaje: sya:malam || 29</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 30</div>
+    <div class="verse-text">
+      <span class="line">thatho: yattha:sakthi sri:ko:so:pari bhagavada:ra:dhanam ka:ryam</span>
+      <span class="line">dharma:thma: sathya sandhascha <span class="highlight">ra:mo:</span> da:saratthir yadi</span>
+      <span class="line">paurushe: cha:prathi dvandvaha sarainam jahi ra:vatim || 30</span>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="verse-num">Verse 31</div>
+    <div class="verse-text">
+      <span class="line">thapas sva:dhya:ya niratham thapasvi: va:gvida:m varam</span>
+      <span class="line">na:radam paripaprachcha va:lmi:kir munipungavam || 31</span>
+    </div>
+  </div>
+
+  <!-- SECTION 5 - Pa:ra:yana -->
+  <div class="section-heading" id="sec-parayana">Pa:ra:yana — Sri: Ra:ma:yana Kattha:</div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 1</div><div class="verse-text">
+    <span class="line">thapas sva:dhya:ya niratham thapasvi: va:gvida:m varam |</span>
+    <span class="line">na:radam pari paprachha va:lmi:kir muni pungavam || 1</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 2</div><div class="verse-text">
+    <span class="line">ko: nvasmin sa:mpratham lo:ke: gunava:n kascha vi:ryava:n |</span>
+    <span class="line">dharmajnas cha kruthajnas cha sathya va:kyo: dhrudha vrathaha || 2</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 3</div><div class="verse-text">
+    <span class="line">cha:rithre:na cha ko: yukthaha sarva bhu:theshu ko: hithaha |</span>
+    <span class="line">vidva:n kah kas samartthas cha kas chaika priyadarsanaha || 3</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 4</div><div class="verse-text">
+    <span class="line">a:thmava:n ko jitha kro:dho: dyuthima:n ko: anasu:yakaha |</span>
+    <span class="line">kasya bibhyathi deva:s cha ja:tha ro:shasya samyuge: || 4</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 5</div><div class="verse-text">
+    <span class="line">e:thad iccha:m yaham sro:thum param kauthu:halam hi me: |</span>
+    <span class="line">maharshe: thvam samartho:si jna:thum e:vam vidham naram || 5</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 6</div><div class="verse-text">
+    <span class="line">sruthva: chaithath thrilo:kajno: va:lmi:ke:r na:rado: vachaha |</span>
+    <span class="line">sru:yatha:m ithi cha:manthrya prahrushto: va:kyam abravi:th || 6</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 7</div><div class="verse-text">
+    <span class="line">bahavo: durlabha:s chaiva ye: thvaya: ki:rthitha: guna:ha |</span>
+    <span class="line">mune: vakshya:my aham buddhva: thair yukthassru:yatha:m naraha || 7</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 8</div><div class="verse-text">
+    <span class="line">ikshva:ku vamsa prabhavo: <span class="highlight">ra:mo:</span> na:ma janaissruthaha |</span>
+    <span class="line">niyatha:thma: maha:vi:ryo: dyuthima:n dhruithima:n vasi: || 8</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 9</div><div class="verse-text">
+    <span class="line">buddhima:n ni:thima:n va:gmi: sri:ma:n sathru nibarhanaha |</span>
+    <span class="line">vipula:mso: maha:ba:huhu kambu gri:vo: maha:hanuhu || 9</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 10</div><div class="verse-text">
+    <span class="line">maho:rasko: mahe:shva:so: gu:dha jathrur arindamaha |</span>
+    <span class="line">a:ja:nu ba:hus susira:s sulala:tas suvikramaha || 10</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 11</div><div class="verse-text">
+    <span class="line">samas sama vibhaktha:ngaha snigdha varnah pratha:pava:n |</span>
+    <span class="line">pi:na vaksho: visa:la:ksho: lakshmi:va:n subha lakshanaha || 11</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 12</div><div class="verse-text">
+    <span class="line">dharmajnas sathya sandhas cha praja:na:m cha hithe: rathaha |</span>
+    <span class="line">yasasvi: jna:na sampannaha suchir vasyas sama:dhima:n || 12</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 13</div><div class="verse-text">
+    <span class="line">praja:pathi samassri:ma:n dha:tha: ripu nishu:danaha |</span>
+    <span class="line">rakshitha: ji:valo:kasya dharmasya pari rakshitha: || 13</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 14</div><div class="verse-text">
+    <span class="line">rakshitha: svasya dharmasya svajanasya cha rakshitha: |</span>
+    <span class="line">ve:da veda:nga thaththvajno: dhanur ve:de: cha nishthithaha || 14</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 15</div><div class="verse-text">
+    <span class="line">sarva sa:sthra:rttha thaththvajnaha smruthima:n prathibha:nava:n |</span>
+    <span class="line">sarvalo:ka priyas sa:dhuhu adi:na:thma: vichakshanaha || 15</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 16</div><div class="verse-text">
+    <span class="line">sarvada: abhigathas sadbhihi samudra iva sindhubhihi |</span>
+    <span class="line">aryas sarvasamas chaiva sadaika priya darsanaha || 16</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 17</div><div class="verse-text">
+    <span class="line">sa cha sarva guno:pe:thaha kausalya:nanda vardhanaha |</span>
+    <span class="line">samudra iva ga:mbhi:rye: dhairye:na himava:n iva || 17</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 18</div><div class="verse-text">
+    <span class="line">vishnuna: sadruso vi:rye: so:mavath priya darsanaha |</span>
+    <span class="line">ka:la:gni sadrusaha kro:dhe: kshamaya: pruthivi: samaha || 18</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 19</div><div class="verse-text">
+    <span class="line">dhanade:na samas thya:ge: sathye: dharma iva:paraha |</span>
+    <span class="line">tham e:vam guna sampannam <span class="highlight">ra:mam</span> sathya para:kramam || 19</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 20</div><div class="verse-text">
+    <span class="line">jye:shtham sre:shtha gunair yuktham priyam dasaratthas sutham |</span>
+    <span class="line">prakruthi:na:m hithair yuktham prakruthi priya ka:myaya: || 20</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 21</div><div class="verse-text">
+    <span class="line">yauva ra:jye:na samyo:kthum aicchat pri:thya: mahi:pathihi |</span>
+    <span class="line">thasya:bhishe:ka sambha:ra:n drushtva: bha:rya:ttha kaikayi: || 21</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 22</div><div class="verse-text">
+    <span class="line">pu:rvam daththa vara: de:vi: varam e:nam aya:chatha |</span>
+    <span class="line">vanava:sam cha <span class="highlight">ra:masya</span> bharathasya:bhishe:chanam || 22</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 23</div><div class="verse-text">
+    <span class="line">sa sathya vachana:chchaiva dharma pa:se:na samyathaha |</span>
+    <span class="line">niva:saya:ma:sa sutham <span class="highlight">ra:mam</span> dasaratthah priyam || 23</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 24</div><div class="verse-text">
+    <span class="line">sa jaga:ma vanam vi:raha prathijna:m anupa:layan |</span>
+    <span class="line">pithur vachana nirde:sa:th kaike:yya:h priya ka:rana:th || 24</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 25</div><div class="verse-text">
+    <span class="line">tham vrajantham priyo: bhra:tha: lakshmano:nujaga:ma ha |</span>
+    <span class="line">sne:ha:d vinaya sampannaha sumithra:nanda vardhanaha || 25</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 26</div><div class="verse-text">
+    <span class="line">bhra:tharam dayitho: bhra:thuhu saubhra:thram anudarsayan |</span>
+    <span class="line"><span class="highlight">ra:masya</span> dayitha: bha:rya: nithyam pra:na sama:hitha: || 26</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 27</div><div class="verse-text">
+    <span class="line">janakasya kule: ja:tha: de:va ma:ye:va nirmitha: |</span>
+    <span class="line">sarva lakshana sampanna: na:ri:na:m uththama: vadhu:hu || 27</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 28</div><div class="verse-text">
+    <span class="line">si:tha:pyanugatha: <span class="highlight">ra:mam</span> sasinam rohini: yattha: |</span>
+    <span class="line">paurair anugatho: du:ram pithra: dasaratthe:na cha || 28</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 29</div><div class="verse-text">
+    <span class="line">srungibe:ra pure: su:tham ganga: ku:le: vyasarjayath |</span>
+    <span class="line">guham a:sa:dya dharma:thma: nish:ada adhipathim priyam || 29</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 30</div><div class="verse-text">
+    <span class="line">guhe:na sahitho: <span class="highlight">ra:mo:</span> lakshmane:na cha si:thaya: |</span>
+    <span class="line">the: vane:na vanam gathva: nadi:is thi:rthva: bahu:daka:ha || 30</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 31</div><div class="verse-text">
+    <span class="line">chithraku:tam anupra:pya bharadva:jasya sa:sana:th |</span>
+    <span class="line">ramyam a:vasadham kruthva: ramama:na: vane: thrayaha || 31</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 32</div><div class="verse-text">
+    <span class="line">de:va gandharva sanka:sa: thathra the: nyavasan sukham |</span>
+    <span class="line">chithraku:tam gathe: <span class="highlight">ra:me:</span> puthra so:ka:thuras thattha: || 32</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 33</div><div class="verse-text">
+    <span class="line">ra:ja: dasaratthas svargam jaga:ma vilapan sutham |</span>
+    <span class="line">mruthe: thu thasmin bharatho: vasishtha pramukhair dvijaihi || 33</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 34</div><div class="verse-text">
+    <span class="line">niyujyama:no: ra:jya:ya naicchad ra:jyam maha:balaha |</span>
+    <span class="line">sa jaga:ma vanam vi:ro: <span class="highlight">ra:ma</span> pa:da prasa:dakaha || 34</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 35</div><div class="verse-text">
+    <span class="line">gathva: thu sa maha:thma:nam <span class="highlight">ra:mam</span> sathya para:kramam |</span>
+    <span class="line">aya:chad bhra:tharam <span class="highlight">ra:mam</span> a:rya bha:va puraskruthaha || 35</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 36</div><div class="verse-text">
+    <span class="line">thvam e:va ra:ja: dharmajna ithi <span class="highlight">ra:mam</span> vacho:bravi:th |</span>
+    <span class="line"><span class="highlight">ra:mo:</span>pi paramo:da:raha sumukhas sumaha:yasa:ha || 36</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 37</div><div class="verse-text">
+    <span class="line">na chaicchath pithura:de:sa:th ra:jyam <span class="highlight">ra:mo:</span> maha:balaha |</span>
+    <span class="line">pa:duke: cha:sya ra:jya:ya nya:sam daththva: punah punaha || 37</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 38</div><div class="verse-text">
+    <span class="line">nivarthaya:ma:sa thatho: bharatham bharatha:grajaha |</span>
+    <span class="line">sa ka:mam anava:pyaiva <span class="highlight">ra:ma</span> pa:da:vupasprusan || 38</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 39</div><div class="verse-text">
+    <span class="line">nandi gra:me: akaro:d ra:jyam <span class="highlight">ra:ma</span>:gamana ka:nkshaya: |</span>
+    <span class="line">gathe: thu bharathe sri:ma:n sathya sandho: jithe:ndriyaha || 39</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 40</div><div class="verse-text">
+    <span class="line"><span class="highlight">ra:mas</span> thu punar a:lakshya na:garasya janasya cha |</span>
+    <span class="line">thathra:gamanam e:ka:gro: dandaka:n pravive:sa ha: || 40</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 41</div><div class="verse-text">
+    <span class="line">pravisya thu maha:ranyam <span class="highlight">ra:mo:</span> ra:ji:va lo:chanaha |</span>
+    <span class="line">vira:dham ra:kshasam hathva: sarabhangam dadarsa ha || 41</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 42</div><div class="verse-text">
+    <span class="line">suthi:kshnam cha apyagasthyam cha agasthya bhra:tharam thattha: |</span>
+    <span class="line">agasthya vachana:chchaiva jagra:haindram sara:sanam || 42</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 43</div><div class="verse-text">
+    <span class="line">khadgam cha parama pri:thaha thu:ni: cha:kshaya sa:yake: |</span>
+    <span class="line">vasathas thasya <span class="highlight">ra:masya</span> vane: vana charais saha || 43</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 44</div><div class="verse-text">
+    <span class="line">rushayo:bhya:gaman sarve: vadha:ya:sura rakshasa:m |</span>
+    <span class="line">sa thesha:m prathi susra:va ra:kshasa:na:m thathha: vane: || 44</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 45</div><div class="verse-text">
+    <span class="line">prathijna:thas cha <span class="highlight">ra:me:na</span> vadhas samyathi rakshasa:m |</span>
+    <span class="line">rushi:na:m agni kalpa:na:m dandaka:ranya va:si:na:m || 45</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 46</div><div class="verse-text">
+    <span class="line">the:na thathraiva vasatha: janasthha:na niva:sini: |</span>
+    <span class="line">viru:pitha: su:rpanakha: ra:kshasi: ka:ma ru:pini: || 46</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 47</div><div class="verse-text">
+    <span class="line">thathaaha su:rpanakha: va:kya:th udyuktha:n sarva ra:kshasa:n |</span>
+    <span class="line">kharam thrisirasam chaiva du:shanam chaiva ra:kshasam || 47</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 48</div><div class="verse-text">
+    <span class="line">nijagha:na rane: <span class="highlight">ra:maha</span> thesha:m chaiva pada:nuga:n |</span>
+    <span class="line">vane: thasmin nivasatha: janasttha:na niva:sina:m || 48</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 49</div><div class="verse-text">
+    <span class="line">rakshasa:m nihatha:nya:san sahasra:ni chathur dasa |</span>
+    <span class="line">thatho: jna:thi vadham sruthva: ra:vanah kro:dha mu:rcchithaha || 49</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 50</div><div class="verse-text">
+    <span class="line">saha:yam varaya:ma:sa ma:ri:cham na:ma ra:kshasam |</span>
+    <span class="line">va:ryama:nas subahuso: ma:ri:che:na sa ra:vanaha || 50</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 51</div><div class="verse-text">
+    <span class="line">na viro:dho: balavatha: kshamo: ra:vana the:na the: |</span>
+    <span class="line">ana:druthya thu thad va:kyam ra:vanah ka:la cho:dithaha || 51</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 52</div><div class="verse-text">
+    <span class="line">jaga:ma saha ma:ri:chaha thasya:srama padam thada: |</span>
+    <span class="line">the:na ma:ya:vina: du:ram apava:hya nrupa:thmajau || 52</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 53</div><div class="verse-text">
+    <span class="line">jaha:ra bha:rya:m <span class="highlight">ra:masya</span> grudhram hathva: jata:yusham |</span>
+    <span class="line">grudhram cha nihatham drushtva: hrutha:m sruthva: cha maithili:m || 53</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 54</div><div class="verse-text">
+    <span class="line"><span class="highlight">ra:ghava</span>sso:ka santhaptho: vilala:pa:kule:ndriyaha |</span>
+    <span class="line">thathas the:naiva so:ke:na grudhram dagdhva: jata:yusham || 54</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 55</div><div class="verse-text">
+    <span class="line">ma:rgama:no: vane: si:tha:m ra:kshasam sandadarsa ha: |</span>
+    <span class="line">kabandham na:ma ru:pena vikrutham gho:ra darsanam || 55</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 56</div><div class="verse-text">
+    <span class="line">tham nihathya maha:ba:huhu dada:ha svargathas cha saha |</span>
+    <span class="line">sa cha:sya kathaya:ma:sa sabari:m dharma cha:rini:m || 56</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 57</div><div class="verse-text">
+    <span class="line">sramani:m dharma nipuna:m abhigacche:thi <span class="highlight">ra:ghava</span> |</span>
+    <span class="line">so:bhya gacchan maha:the:ja:ha sabari:m sathru su:danaha || 57</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 58</div><div class="verse-text">
+    <span class="line">sabarya: pu:jithas samyak <span class="highlight">ra:mo:</span> dasarattha:thmajaha |</span>
+    <span class="line">pampa: thi:re: hanumatha: sangatho: va:nare:na ha: || 58</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 59</div><div class="verse-text">
+    <span class="line">hanumath vachana:chchaiva sugri:ve:na sama:gathaha |</span>
+    <span class="line">sugri:va:ya cha thathsarvam sansad <span class="highlight">ra:mo:</span> maha:balaha || 59</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 60</div><div class="verse-text">
+    <span class="line">a:dithas thad yatha: vruththam si:tha:ya:s cha vise:shathaha |</span>
+    <span class="line">sugri:vas cha:pi thath sarvam sruthva: <span class="highlight">ra:masya</span> va:naraha || 60</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 61</div><div class="verse-text">
+    <span class="line">chaka:ra sakhyam <span class="highlight">ra:me:na</span> pri:thas chaiva:gni sa:kshikam |</span>
+    <span class="line">thatho: va:nara ra:je:na vaira:nukathanam prathi || 61</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 62</div><div class="verse-text">
+    <span class="line"><span class="highlight">ra:ma:ya</span>:veditham sarvam pranaya:th dukhithe:na cha |</span>
+    <span class="line">prathijna:tham cha <span class="highlight">ra:mena</span> thada: va:li vadham prathi || 62</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 63</div><div class="verse-text">
+    <span class="line">va:linas cha balam thathra katthaya:ma:sa va:naraha |</span>
+    <span class="line">sugri:vassankithas cha:si:th nithyam vi:rye:na <span class="highlight">ra:ghave:</span> || 63</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 64</div><div class="verse-text">
+    <span class="line"><span class="highlight">ra:ghavah</span> prathyaya:rtham thu dundubhe:h ka:yam uththamam |</span>
+    <span class="line">darsaya:ma:sa sugri:vo: maha:parvatha sannibham || 64</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 65</div><div class="verse-text">
+    <span class="line">uthsmayithva: maha:ba:huhu pre:kshya cha:sthi maha:balaha |</span>
+    <span class="line">pa:da:ngushte:na chikshe:pa sampu:rnam dasa yo:janam || 65</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 66</div><div class="verse-text">
+    <span class="line">bibhe:da cha punas sa:la:n sapthaike:na mahe:shuna: |</span>
+    <span class="line">girim rasa:thalam chaiva janayan prathyayam thada: || 66</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 67</div><div class="verse-text">
+    <span class="line">thathah pri:tha mana:s the:na visvasthas sa maha:kapihi |</span>
+    <span class="line">kishkindha:m <span class="highlight">ra:ma</span> sahitho: jaga:ma cha guha:m thada: || 67</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 68</div><div class="verse-text">
+    <span class="line">thatho:garjath harivaraha sugri:vo: he:ma pingalaha |</span>
+    <span class="line">the:na na:de:na mahatha: nirjaga:ma hari:svaraha || 68</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 69</div><div class="verse-text">
+    <span class="line">anuma:nya thada: tha:ra:m sugri:vena sama:gathaha |</span>
+    <span class="line">nijagha:na cha thathrainam sare:naike:na <span class="highlight">ra:ghavaha</span> || 69</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 70</div><div class="verse-text">
+    <span class="line">thathas sugri:va vachana:th hathva: va:linam a:have: |</span>
+    <span class="line">sugri:vam e:va thad ra:jye: <span class="highlight">ra:ghavah</span> prathyapa:dayath || 70</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 71</div><div class="verse-text">
+    <span class="line">sa cha sarva:n sama:ni:ya va:nara:n va:nararshabhaha |</span>
+    <span class="line">disah prasthha:paya:ma:sa didrukshur janaka:thmaja:m || 71</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 72</div><div class="verse-text">
+    <span class="line">thatho: grudhrasya vachana:th sampa:the:r hanuma:n bali: |</span>
+    <span class="line">satha yo:jana visthi:rnam pupluve: lavana:rnavam || 72</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 73</div><div class="verse-text">
+    <span class="line">thathra lanka:m sama:sa:dya puri:m ra:vana pa:litha:m |</span>
+    <span class="line">dadarsa si:tha:m dhya:yanthi:m aso:ka vanika:m gatha:m || 73</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 74</div><div class="verse-text">
+    <span class="line">nive:dayithva: abhijna:nam pravruththim cha nive:dya cha |</span>
+    <span class="line">sama:sva:sya cha vaide:hi:m mardaya:ma:sa tho:ranam || 74</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 75</div><div class="verse-text">
+    <span class="line">pancha se:na:graga:n hathva: saptha manthri sutha:n api |</span>
+    <span class="line">su:ram aksham cha nishpishya grahanam samupa:gamath || 75</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 76</div><div class="verse-text">
+    <span class="line">asthre:na unmuktham a:thma:nam jna:thva: paitha:maha:th vara:th |</span>
+    <span class="line">marshayan ra:kshasa:n vi:ro: yanthrinas tha:n yadrucchaya: || 76</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 77</div><div class="verse-text">
+    <span class="line">thatho: dagdhva: puri:m lanka:m ruthe: si:tha:m cha maithili:m |</span>
+    <span class="line"><span class="highlight">ra:ma:ya</span> priyam a:khya:thum punar a:ya:th maha:kapihi || 77</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 78</div><div class="verse-text">
+    <span class="line">so:bhigamya maha:thma:nam kruthva: <span class="highlight">ra:mam</span> pradakshinam |</span>
+    <span class="line">nyave:dayad ame:ya:thma: drushta: si:the:thi thaththvathaha || 78</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 79</div><div class="verse-text">
+    <span class="line">thathas sugri:va sahitho: gathva: thi:ram maho:dadhe:he |</span>
+    <span class="line">samudram ksho:bhaya:ma:sa sarair a:dithya sannibhaihi || 79</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 80</div><div class="verse-text">
+    <span class="line">darsaya:ma:sa cha:thma:nam samudras saritha:m pathihi |</span>
+    <span class="line">samudra vachana:ch chaiva nalam se:thum aka:rayath || 80</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 81</div><div class="verse-text">
+    <span class="line">the:na gathva: puri:m lanka:m hathva: ra:vanam a:have: |</span>
+    <span class="line"><span class="highlight">ra:mas</span> si:tha:m anupra:pya para:m vri:da:m upa:gamath || 81</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 82</div><div class="verse-text">
+    <span class="line">tha:m uva:cha thatho: <span class="highlight">ra:maha</span> parusham jana samsadi |</span>
+    <span class="line">amrushyama:na: sa: si:tha: vive:sa jvalanam sathi: || 82</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 83</div><div class="verse-text">
+    <span class="line">thatho:gni vachana:th si:tha:m jna:thva: vigatha kalmasha:m |</span>
+    <span class="line">babhau <span class="highlight">ra:mas</span> samprahrushtaha pu:jithas sarva de:vathaihi || 83</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 84</div><div class="verse-text">
+    <span class="line">karmana: the:na mahatha: thrailo:kyam sa chara:charam |</span>
+    <span class="line">sa devarshi ganam thushtam <span class="highlight">ra:ghavasya</span> maha:thmanaha || 84</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 85</div><div class="verse-text">
+    <span class="line">abhishichya cha lanka:ya:m ra:kshase:ndram vibhi:shanam |</span>
+    <span class="line">kruthakruthyas thada: <span class="highlight">ra:mo:</span> vijvaraha pramumo:da ha: || 85</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 86</div><div class="verse-text">
+    <span class="line">de:vatha:bhyo: varam pra:pya samuttha:pya cha va:nara:n |</span>
+    <span class="line">ayo:dhya:m prastthitho: <span class="highlight">ra:maha</span> pushpake:na suhrud vrathaha || 86</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 87</div><div class="verse-text">
+    <span class="line">bharadva:ja:sramam gathva: <span class="highlight">ra:mas</span> sathya para:kramaha |</span>
+    <span class="line">bharathasya:nthikam <span class="highlight">ra:mo:</span> hanu:mantham vyasarjayath || 87</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 88</div><div class="verse-text">
+    <span class="line">punar a:khya:yika:m jalpan sugri:va sahithas thada: |</span>
+    <span class="line">pushpakam thath sama:ru:hya nandigra:mam yayau thada: || 88</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 89</div><div class="verse-text">
+    <span class="line">nandigra:me: jata:n hithva: bhra:thrubhis sahitho:naghaha |</span>
+    <span class="line"><span class="highlight">ra:mas</span> si:tha:m anupra:pya ra:jyam punar ava:pthava:n || 89</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 90</div><div class="verse-text">
+    <span class="line">prahrushto: muditho: lo:kaha thushtah pushtas sudha:rmikaha |</span>
+    <span class="line">nira:mayo: hyaro:gas cha durbhiksha bhaya varjithaha || 90</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 91</div><div class="verse-text">
+    <span class="line">na puthra maranam kinchith drakshyanthi purusha:h kvachith |</span>
+    <span class="line">na:ryas cha:vidhava: nithyam bhavishyanthi pathi vratha:ha || 91</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 92</div><div class="verse-text">
+    <span class="line">na cha:gnijam bhayam kinchith na:psu majjanthi janthavaha |</span>
+    <span class="line">na va:thajam bhayam kinchith na:pi jvara krutham thatha: || 92</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 93</div><div class="verse-text">
+    <span class="line">na cha:pi kshud bhayam thathra na thaskara bhayam thattha: |</span>
+    <span class="line">nagara:ni cha ra:shtra:ni dhana dha:nya yutha:ni cha || 93</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 94</div><div class="verse-text">
+    <span class="line">nithyam pramuditha:s sarve: yattha: krutha yuge: thattha: |</span>
+    <span class="line">asvame:dha sathair ishtva: thattha: bahu suvarnakaihi || 94</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 95</div><div class="verse-text">
+    <span class="line">gava:m kotyayutham daththva: vidvabhyo vidhi pu:rvakam |</span>
+    <span class="line">asankhye:yam dhanam daththva: bra:hmane:bhyo: maha:yasa:ha || 95</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 96</div><div class="verse-text">
+    <span class="line">ra:ja vamsa:n satha guna:n stha:payishyathi <span class="highlight">ra:ghavaha</span> |</span>
+    <span class="line">cha:thur varnyam cha lo:ke:smin sve: sve: dharme: niyo:kshyathi || 96</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 97</div><div class="verse-text">
+    <span class="line">dasa varsha sahasra:ni dasa varsha satha:ni cha |</span>
+    <span class="line"><span class="highlight">ra:mo:</span> ra:jyam upa:sithva: brahma lo:kam praya:syathi || 97</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 98</div><div class="verse-text">
+    <span class="line">idam pavithram pa:paghnam punyam vedais cha sammitham |</span>
+    <span class="line">yah pateth <span class="highlight">ra:ma</span> charitham sarva pa:paih pramuchyathe: || 98</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 99</div><div class="verse-text">
+    <span class="line">e:thad a:khya:nam a:yushyam patan <span class="highlight">ra:ma:yanam</span> naraha |</span>
+    <span class="line">sa puthra pauthras sa gana:ha pre:thya svarge: mahi:yathe: || 99</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 100</div><div class="verse-text">
+    <span class="line">patan dvijo: va:g rushabhathvam i:ya:th |</span>
+    <span class="line">sya:th kshathriyo: bhu:mi pathithvam i:ya:th ||</span>
+    <span class="line">vanik janah panya phalathvam i:ya:th |</span>
+    <span class="line">janas cha su:dro:pi mahaththvam i:ya:th || 100</span>
+  </div></div>
+
+  <div style="text-align:center;margin:20px 0 40px;font-style:italic;color:#7a5230;font-size:0.9rem;line-height:1.9;">
+    ithya:rshe: sri:mad ra:ma:yane: va:lmi:ki:ye: a:dika:vye: ba:laka:nde:<br>
+    sri:<span class="highlight">ra:ma:yana</span> kattha: sankshe:po: na:ma pratthamas sargaha
+  </div>
+
+  <!-- SECTION 6 - Concluding -->
+  <div class="section-heading" id="sec-concluding">Concluding Slo:kas of Sri:mad Ra:ma:yana Pa:ra:yana</div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 1</div><div class="verse-text">
+    <span class="line">e:vam e:thath pura:vrutham a:khya:nam bhadram asthu vaha |</span>
+    <span class="line">pravya:haratha visrabdham balam vishno:ho pravardhatha:m || 1</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 2</div><div class="verse-text">
+    <span class="line">la:bhas the:sha:m jayasthe:sha:m kuthasthe:sha:m para:bhavaha |</span>
+    <span class="line">ye:sha:m indi:varasya:mo: hrudaye: suprathishtithaha || 2</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 3</div><div class="verse-text">
+    <span class="line">ka:le: varshathu parjanyaha prutthivi: sasyasa:lini: |</span>
+    <span class="line">de:so:yam ksho:bharahitho: bra:mhana:s santhu nirbhaya:ha || 3</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 4</div><div class="verse-text">
+    <span class="line">ka:ve:ri: vardhatha:m ka:le: ka:le: varshathu va:savaha |</span>
+    <span class="line">sri:rangana:ttho: jayathu sri:ranga sri:s cha vardhatha:m || 4</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 5</div><div class="verse-text">
+    <span class="line">svasthi praja:bhyah paripa:layantha:m</span>
+    <span class="line">nya:yye:na ma:rge:na mahi:m mahi:sa:ha |</span>
+    <span class="line">go:bra:mhane:bhyas subham asthu nithyam</span>
+    <span class="line">lo:ka:s smastha:s sukhino: bhavanthu || 5</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 6</div><div class="verse-text">
+    <span class="line">mangalam ko:sale:ndra:ya mahani:ya guna:bdhaye: |</span>
+    <span class="line">chakravarthi thanu:ja:ya sa:rva bhauma:ya mangalam || 6</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 7</div><div class="verse-text">
+    <span class="line">ve:da ve:dan:tha ve:dya:ya me:ghasya:mala mu:rthaye: |</span>
+    <span class="line">pumsa:m mo:hana ru:pa:ya punya slo:ka:ya mangalam || 7</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 8</div><div class="verse-text">
+    <span class="line">visva:mithra:ntharanga:ya mitthila:nagari: pathe:he |</span>
+    <span class="line">bha:gya:na:m paripa:ka:ya bhavya ru:pa:ya mangalam || 8</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 9</div><div class="verse-text">
+    <span class="line">pithrubhaktha:ya sathatham bhra:thrubhis saha si:thaya: |</span>
+    <span class="line">nanditha:khila lo:ka:ya <span class="highlight">ra:mabhadra</span>:ya mangalam || 9</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 10</div><div class="verse-text">
+    <span class="line">thyaktha sa:ke:tha va:sa:ya chithraku:ta viha:rine: |</span>
+    <span class="line">se:vya:ya sarvayamina:m dhi:ro:da:ra:ya mangalam || 10</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 11</div><div class="verse-text">
+    <span class="line">saumithrina: cha ja:nakya: cha:paba:na:si dha:rine: |</span>
+    <span class="line">samse:vya:ya sada: bhakthya: sva:mine: mama mangalam || 11</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 12</div><div class="verse-text">
+    <span class="line">dandaka:ranya va:sa:ya khanditha:mara sathrave: |</span>
+    <span class="line">grudhrara:ja:ya bhaktha:ya mukthida:ya:sthu mangalam || 12</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 13</div><div class="verse-text">
+    <span class="line">sa:daram sabari:daththa phalamu:la:bhila:shine: |</span>
+    <span class="line">saulabhyaparipu:rna:ya sathvo:driktha:ya mangalam || 13</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 14</div><div class="verse-text">
+    <span class="line">hanumath samave:tha:ya hari:sa:bhi:shta da:yine: |</span>
+    <span class="line">va:lipramatthana:ya:sthu maha:dhi:ra:ya mangalam || 14</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 15</div><div class="verse-text">
+    <span class="line">sri:mathe: <span class="highlight">raghuvi:ra</span>:ya se:thu:llanghitha sindhave: |</span>
+    <span class="line">jithara:kshasa ra:ja:ya ranadhi:ra:ya mangalam || 15</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 16</div><div class="verse-text">
+    <span class="line">a:sa:dya nagari:m divya:m abhishiktha:ya si:thaya: |</span>
+    <span class="line">ra:ja:dhira:ja ra:ja:ya <span class="highlight">ra:mabhadra</span>:ya mangalam || 16</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 17</div><div class="verse-text">
+    <span class="line">mangala:sa:sanaparair mada:cha:rya puro:gamaihi |</span>
+    <span class="line">sarvais cha pu:rvair a:cha:ryaihi sathkrutha:ya:sthu mangalam || 17</span>
+  </div></div>
+
+  <div class="verse"><div class="verse-num">Slo:ka 18</div><div class="verse-text">
+    <span class="line">ka:ye:na va:cha: manase:ndriyair va: budhya:thmana: va: prakruthe:s svabha:va:th |</span>
+    <span class="line">karo:mi yadyath sakalam parasmai na:ra:yana:ye:thi samarpaya:mi || 18</span>
+  </div></div>
+
+  <div class="dedication">
+    sri:manna:ra:yana:ye:thi samarpaya:mi
+    <span class="line2">sarvam sri:krushna:rpanam asthu</span>
+  </div>
+
+</main>
+
+<script>
+  const sizes = ['fs-1','fs-2','fs-3','fs-4','fs-5','fs-6','fs-7'];
+  let current = 2;
+  const html = document.documentElement;
+  const btnInc = document.getElementById('btnIncrease');
+  const btnDec = document.getElementById('btnDecrease');
+
+  function applySize(idx) {
+    html.classList.remove(...sizes);
+    html.classList.add(sizes[idx]);
+    btnDec.disabled = idx === 0;
+    btnInc.disabled = idx === sizes.length - 1;
+    try { localStorage.setItem('rama_fs', idx); } catch(e) {}
+  }
+
+  btnInc.addEventListener('click', () => { if (current < sizes.length - 1) applySize(++current); });
+  btnDec.addEventListener('click', () => { if (current > 0) applySize(--current); });
+
+  try {
+    const saved = parseInt(localStorage.getItem('rama_fs'));
+    if (!isNaN(saved) && saved >= 0 && saved < sizes.length) { current = saved; applySize(current); }
+    else applySize(current);
+  } catch(e) { applySize(current); }
+
+  // ── Progress bar & sticky section banner ─────────────────────
+  const bar = document.getElementById('progressBar');
+  const bannerText = document.getElementById('bannerText');
+  const sections = [
+    { id: 'sec-thaniyans',   label: 'Obeisance to the Lineage of A:cha:ryas' },
+    { id: 'sec-prayers',     label: 'Prayers' },
+    { id: 'sec-mahima',      label: 'Sri: Ra:ma:yana Mahima' },
+    { id: 'sec-praarthana',  label: 'Sri: Ra:ma Pra:rtthana:' },
+    { id: 'sec-parayana',    label: 'Pa:ra:yana — Sri: Ra:ma:yana Kattha:' },
+    { id: 'sec-concluding',  label: 'Concluding Slo:kas of Pa:ra:yana' },
+  ];
+
+  function updateBanner() {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+    let current = null;
+    for (const sec of sections) {
+      const el = document.getElementById(sec.id);
+      if (el && el.getBoundingClientRect().top <= 100) current = sec.label;
+    }
+    bannerText.textContent = current || 'Sankshe:pa Ra:ma:yanam';
+  }
+
+  window.addEventListener('scroll', updateBanner, { passive: true });
+  updateBanner();
+</script>
+</body>
+</html>
