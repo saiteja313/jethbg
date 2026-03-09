@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V819DR77ZK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V819DR77ZK');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sankshe:pa Ra:ma:yanam — JET Harrisburg</title>
@@ -307,13 +315,6 @@
       </button>
     </div>
   </header>
-
-  <!-- Page Header -->
-  <section class="page-header">
-    <h1>Sankshe:pa Ra:ma:yanam</h1>
-    <p>The Condensed Ramayana by Sage Va:lmi:ki — from Bala Ka:nda, Sarga 1</p>
-  </section>
-  <div class="ornament-border"></div>
 
   <div class="progress-bar" id="progressBar"></div>
 
@@ -1384,15 +1385,17 @@
   navToggle.addEventListener('click', (e) => {
     // Don't toggle if clicking a link inside the dropdown
     if (e.target.closest('.section-nav')) return;
+    e.stopPropagation();
     const isOpen = sectionNav.classList.toggle('open');
     navToggle.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
   });
 
   // Handle section link clicks — smooth scroll + close dropdown
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const targetId = link.getAttribute('href').slice(1);
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
