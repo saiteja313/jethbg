@@ -1,48 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" class="fs-3">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sankshe:pa Ra:ma:yanam</title>
+  <title>Sankshe:pa Ra:ma:yanam — JET Harrisburg</title>
+  <meta name="description" content="Read the Sankshe:pa Ra:ma:yanam — the condensed Ramayana by Sage Va:lmi:ki with prayers, thaniyans, and mangala slo:kas.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23D4882B'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-family='serif' font-weight='bold'>JH</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* ── Font-size scale (class on <html>) ── */
-    html.fs-1 { font-size: 14px; }
-    html.fs-2 { font-size: 16px; }
-    html.fs-3 { font-size: 18px; }
-    html.fs-4 { font-size: 20px; }
-    html.fs-5 { font-size: 23px; }
-    html.fs-6 { font-size: 26px; }
-    html.fs-7 { font-size: 30px; }
+    /* ── Font-size scale (scoped to main.page) ── */
+    main.page.fs-1 { font-size: 14px; }
+    main.page.fs-2 { font-size: 16px; }
+    main.page.fs-3 { font-size: 18px; }
+    main.page.fs-4 { font-size: 20px; }
+    main.page.fs-5 { font-size: 23px; }
+    main.page.fs-6 { font-size: 26px; }
+    main.page.fs-7 { font-size: 30px; }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
+    /* ── Page layout ── */
+    .page {
       font-family: 'EB Garamond', Georgia, serif;
-      background: #fdf8f0;
       color: #2a2016;
       line-height: 1.85;
-      min-height: 100vh;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
     }
 
-    /* ── Sticky toolbar ── */
-    .toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #3d1f0a;
+    /* ── Reading controls ── */
+    .reading-controls {
+      background: var(--saffron-pale, #fdf3e6);
+      border-bottom: 1px solid var(--border-light, #e8dcc8);
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      justify-content: center;
     }
-    .toolbar-title {
+    .reading-controls-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 760px;
+      width: 100%;
+      justify-content: flex-end;
+    }
+    .reading-label {
       font-family: 'Cinzel', serif;
-      color: #f5c97a;
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--saffron, #c8843a);
+      margin-right: auto;
     }
     .font-controls {
       display: flex;
@@ -50,15 +59,15 @@
       gap: 6px;
     }
     .font-controls span {
-      color: #c8a96e;
+      color: #7a5230;
       font-size: 0.78rem;
       margin-right: 4px;
       letter-spacing: 0.06em;
     }
     .font-btn {
       background: none;
-      border: 1.5px solid #7a5230;
-      color: #f0d9b0;
+      border: 1.5px solid var(--saffron, #c8843a);
+      color: #3d1f0a;
       border-radius: 6px;
       cursor: pointer;
       font-family: 'EB Garamond', serif;
@@ -67,15 +76,8 @@
       padding: 5px 13px;
       font-size: 1rem;
     }
-    .font-btn:hover { background: #5a2e0e; border-color: #c8843a; }
+    .font-btn:hover { background: var(--saffron-glow, #faecd6); border-color: #3d1f0a; }
     .font-btn:disabled { opacity: 0.3; cursor: default; }
-
-    /* ── Page layout ── */
-    .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
 
     /* ── Title block ── */
     .book-header {
@@ -85,7 +87,7 @@
       margin-bottom: 48px;
     }
     .book-header .om {
-      font-size: 2.4rem;
+      font-size: 2.4em;
       color: #b03a10;
       line-height: 1;
       margin-bottom: 14px;
@@ -93,7 +95,7 @@
     }
     .book-header h1 {
       font-family: 'Cinzel', serif;
-      font-size: 1.6rem;
+      font-size: 1.6em;
       font-weight: 600;
       color: #3d1f0a;
       letter-spacing: 0.08em;
@@ -103,13 +105,13 @@
     .book-header .subtitle {
       font-style: italic;
       color: #7a5230;
-      font-size: 1rem;
+      font-size: 1em;
     }
 
     /* ── Section headings ── */
     .section-heading {
       font-family: 'Cinzel', serif;
-      font-size: 0.88rem;
+      font-size: 0.88em;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #b03a10;
@@ -118,7 +120,7 @@
       margin: 48px 0 20px;
     }
     .sub-heading {
-      font-size: 0.85rem;
+      font-size: 0.85em;
       color: #7a5230;
       font-style: italic;
       margin-bottom: 24px;
@@ -134,7 +136,7 @@
     .verse:last-child { border-bottom: none; }
     .verse-num {
       font-family: 'Cinzel', serif;
-      font-size: 0.72rem;
+      font-size: 0.72em;
       letter-spacing: 0.14em;
       color: #b03a10;
       display: inline-block;
@@ -145,7 +147,7 @@
       border: 1px solid #dac8a8;
     }
     .verse-text {
-      font-size: 1.05rem;
+      font-size: 1.05em;
       line-height: 2.0;
       color: #2a2016;
       text-align: justify;
@@ -161,13 +163,13 @@
       padding-top: 32px;
       border-top: 2px solid #c8843a;
       font-family: 'Cinzel', serif;
-      font-size: 1rem;
+      font-size: 1em;
       color: #3d1f0a;
       letter-spacing: 0.06em;
     }
     .dedication .line2 {
       color: #b03a10;
-      font-size: 1.1rem;
+      font-size: 1.1em;
       margin-top: 8px;
       display: block;
     }
@@ -179,14 +181,14 @@
       height: 3px;
       background: linear-gradient(90deg, #c8843a, #e8a84a);
       width: 0%;
-      z-index: 200;
+      z-index: 1100;
       transition: width 0.1s;
     }
 
     /* ── Sticky section banner ── */
     .section-banner {
       position: sticky;
-      top: 45px;
+      top: 77px;
       z-index: 90;
       background: #f5ebe0;
       border-bottom: 1px solid #dac8a8;
@@ -205,33 +207,74 @@
     /* ── Mobile ── */
     @media (max-width: 520px) {
       .page { padding: 24px 16px 60px; }
-      .toolbar { padding: 9px 14px; }
-      .toolbar-title { font-size: 0.72rem; }
-      .book-header h1 { font-size: 1.25rem; }
-      .book-header .om { font-size: 2rem; }
+      .reading-controls { padding: 8px 14px; }
+      .reading-label { font-size: 0.68rem; }
+      .book-header h1 { font-size: 1.25em; }
+      .book-header .om { font-size: 2em; }
       .verse-text { text-align: left; }
-      .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 43px; }
+      .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 75px; }
     }
   </style>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
-
-<nav class="toolbar">
-  <div class="toolbar-title">Sankshe:pa Ra:ma:yanam</div>
-  <div class="font-controls">
-    <span>TEXT SIZE</span>
-    <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
-    <button class="font-btn" id="btnIncrease" aria-label="Increase font size">A+</button>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <span class="tagline">ॐ Serve All Beings As Service To God</span>
+    </div>
   </div>
-</nav>
+  <div class="ornament-border"></div>
 
-<div class="section-banner" id="sectionBanner">
-  <span>☙</span>&nbsp;<span id="bannerText">Sankshe:pa Ra:ma:yanam</span>&nbsp;<span>❧</span>
-</div>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-group">
+        <img src="../assets/images/jet_logo.png" alt="JET HBG" style="width:48px; height:auto;">
+        <div class="logo-text">
+          <h1>JET Harrisburg</h1>
+          <p class="logo-subtitle">Jeeyar Educational Trust</p>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="events.html">Events</a>
+        <a href="shlokas.html" class="active">Shlokas</a>
+        <a href="flyers.html">Flyers</a>
+      </nav>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
 
-<main class="page">
+  <!-- Page Header -->
+  <section class="page-header">
+    <h1>Sankshe:pa Ra:ma:yanam</h1>
+    <p>The Condensed Ramayana by Sage Va:lmi:ki — from Bala Ka:nda, Sarga 1</p>
+  </section>
+  <div class="ornament-border"></div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Reading Controls -->
+  <div class="reading-controls">
+    <div class="reading-controls-inner">
+      <span class="reading-label">Reading Mode</span>
+      <div class="font-controls">
+        <span>TEXT SIZE</span>
+        <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
+        <button class="font-btn" id="btnIncrease" aria-label="Increase font size">A+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-banner" id="sectionBanner">
+    <span>☙</span>&nbsp;<span id="bannerText">Sankshe:pa Ra:ma:yanam</span>&nbsp;<span>❧</span>
+  </div>
+
+  <main class="page fs-3">
 
   <header class="book-header">
     <span class="om">ॐ</span>
@@ -1151,16 +1194,56 @@
 
 </main>
 
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+          <h3>JET Harrisburg</h3>
+          <p>Serving the spiritual and cultural needs of the community in the greater Harrisburg, PA area.</p>
+          <div class="footer-social">
+            <a href="#" title="Facebook">FB</a>
+            <a href="#" title="YouTube">YT</a>
+            <a href="#" title="Instagram">IG</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="../index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="events.html">Events</a>
+          <a href="shlokas.html">Shlokas</a>
+          <a href="flyers.html">Flyers</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="shlokas.html">Shloka Library</a>
+          <a href="flyers.html">Event Flyers</a>
+          <a href="https://chinnajeeyar.org/" target="_blank" rel="noopener">Jeeyar Swamiji</a>
+        </div>
+        <div class="footer-col">
+          <h4>JET Family</h4>
+          <a href="https://jetusa.org" target="_blank" rel="noopener">JET USA</a>
+          <a href="https://jetuk.org" target="_blank" rel="noopener">JET UK</a>
+          <a href="https://www.jettoronto.org" target="_blank" rel="noopener">JET Canada</a>
+          <a href="https://chinnajeeyar.org" target="_blank" rel="noopener">Chinna Jeeyar</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Jeeyar Educational Trust Harrisburg. All rights reserved. | <a href="https://jethbg.org">jethbg.org</a></p>
+      </div>
+    </div>
+  </footer>
+
 <script>
   const sizes = ['fs-1','fs-2','fs-3','fs-4','fs-5','fs-6','fs-7'];
   let current = 2;
-  const html = document.documentElement;
+  const mainEl = document.querySelector('main.page');
   const btnInc = document.getElementById('btnIncrease');
   const btnDec = document.getElementById('btnDecrease');
 
   function applySize(idx) {
-    html.classList.remove(...sizes);
-    html.classList.add(sizes[idx]);
+    mainEl.classList.remove(...sizes);
+    mainEl.classList.add(sizes[idx]);
     btnDec.disabled = idx === 0;
     btnInc.disabled = idx === sizes.length - 1;
     try { localStorage.setItem('rama_fs', idx); } catch(e) {}
@@ -1194,7 +1277,7 @@
     let current = null;
     for (const sec of sections) {
       const el = document.getElementById(sec.id);
-      if (el && el.getBoundingClientRect().top <= 100) current = sec.label;
+      if (el && el.getBoundingClientRect().top <= 120) current = sec.label;
     }
     bannerText.textContent = current || 'Sankshe:pa Ra:ma:yanam';
   }
@@ -1202,5 +1285,6 @@
   window.addEventListener('scroll', updateBanner, { passive: true });
   updateBanner();
 </script>
+<script src="../js/main.js"></script>
 </body>
 </html>
