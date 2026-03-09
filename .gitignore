@@ -1,3 +1,5 @@
+.claude/
+.claude/*
 .DS_Store
 # gitignore template for ecu.test workspaces - by tracetronic https://tracetronic.com
 # website: https://www.ecu-test.com
