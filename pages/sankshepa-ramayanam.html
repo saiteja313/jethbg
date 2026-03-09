@@ -28,30 +28,36 @@
       padding: 40px 20px 80px;
     }
 
-    /* ── Reading controls ── */
-    .reading-controls {
-      background: var(--saffron-pale, #fdf3e6);
-      border-bottom: 1px solid var(--border-light, #e8dcc8);
+    /* ── Auto-hide site header on scroll ── */
+    .site-header {
+      transition: transform 0.3s ease;
+    }
+    body.header-hidden .site-header {
+      transform: translateY(-100%);
+    }
+
+    /* ── Sticky toolbar ── */
+    .toolbar {
+      position: sticky;
+      top: 77px;
+      z-index: 500;
+      background: #3d1f0a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      transition: top 0.3s ease;
     }
-    .reading-controls-inner {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      max-width: 760px;
-      width: 100%;
-      justify-content: flex-end;
+    body.header-hidden .toolbar {
+      top: 0;
     }
-    .reading-label {
+    .toolbar-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+      color: #f5c97a;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--saffron, #c8843a);
-      margin-right: auto;
     }
     .font-controls {
       display: flex;
@@ -59,15 +65,15 @@
       gap: 6px;
     }
     .font-controls span {
-      color: #7a5230;
+      color: #c8a96e;
       font-size: 0.78rem;
       margin-right: 4px;
       letter-spacing: 0.06em;
     }
     .font-btn {
       background: none;
-      border: 1.5px solid var(--saffron, #c8843a);
-      color: #3d1f0a;
+      border: 1.5px solid #7a5230;
+      color: #f0d9b0;
       border-radius: 6px;
       cursor: pointer;
       font-family: 'EB Garamond', serif;
@@ -76,7 +82,7 @@
       padding: 5px 13px;
       font-size: 1rem;
     }
-    .font-btn:hover { background: var(--saffron-glow, #faecd6); border-color: #3d1f0a; }
+    .font-btn:hover { background: #5a2e0e; border-color: #c8843a; }
     .font-btn:disabled { opacity: 0.3; cursor: default; }
 
     /* ── Title block ── */
@@ -188,7 +194,7 @@
     /* ── Sticky section banner ── */
     .section-banner {
       position: sticky;
-      top: 77px;
+      top: 122px;
       z-index: 90;
       background: #f5ebe0;
       border-bottom: 1px solid #dac8a8;
@@ -200,19 +206,25 @@
       letter-spacing: 0.12em;
       color: #7a3a10;
       text-transform: uppercase;
-      transition: opacity 0.2s;
+      transition: top 0.3s ease, opacity 0.2s;
     }
     .section-banner span { opacity: 0.6; margin: 0 8px; }
+    body.header-hidden .section-banner {
+      top: 45px;
+    }
 
     /* ── Mobile ── */
     @media (max-width: 520px) {
       .page { padding: 24px 16px 60px; }
-      .reading-controls { padding: 8px 14px; }
-      .reading-label { font-size: 0.68rem; }
+      .toolbar { padding: 9px 14px; }
+      .toolbar-title { font-size: 0.72rem; }
       .book-header h1 { font-size: 1.25em; }
       .book-header .om { font-size: 2em; }
       .verse-text { text-align: left; }
-      .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 75px; }
+      .toolbar { top: 75px; }
+      .section-banner { font-size: 0.68rem; padding: 5px 12px; top: 118px; }
+      body.header-hidden .toolbar { top: 0; }
+      body.header-hidden .section-banner { top: 43px; }
     }
   </style>
 </head>
@@ -258,17 +270,15 @@
 
   <div class="progress-bar" id="progressBar"></div>
 
-  <!-- Reading Controls -->
-  <div class="reading-controls">
-    <div class="reading-controls-inner">
-      <span class="reading-label">Reading Mode</span>
-      <div class="font-controls">
-        <span>TEXT SIZE</span>
-        <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
-        <button class="font-btn" id="btnIncrease" aria-label="Increase font size">A+</button>
-      </div>
+  <!-- Sticky Toolbar -->
+  <nav class="toolbar" id="toolbar">
+    <div class="toolbar-title">Sankshe:pa Ra:ma:yanam</div>
+    <div class="font-controls">
+      <span>TEXT SIZE</span>
+      <button class="font-btn" id="btnDecrease" aria-label="Decrease font size">A−</button>
+      <button class="font-btn" id="btnIncrease" aria-label="Increase font size">A+</button>
     </div>
-  </div>
+  </nav>
 
   <div class="section-banner" id="sectionBanner">
     <span>☙</span>&nbsp;<span id="bannerText">Sankshe:pa Ra:ma:yanam</span>&nbsp;<span>❧</span>
@@ -1258,9 +1268,25 @@
     else applySize(current);
   } catch(e) { applySize(current); }
 
+  // ── Auto-hide site header on scroll ─────────────────────────
+  let lastScrollY = window.scrollY;
+  const HIDE_THRESHOLD = 150;
+  const SCROLL_DELTA = 5;
+
+  function handleHeaderVisibility() {
+    const currentY = window.scrollY;
+    if (currentY > HIDE_THRESHOLD && currentY - lastScrollY > SCROLL_DELTA) {
+      document.body.classList.add('header-hidden');
+    } else if (lastScrollY - currentY > SCROLL_DELTA) {
+      document.body.classList.remove('header-hidden');
+    }
+    lastScrollY = currentY;
+  }
+
   // ── Progress bar & sticky section banner ─────────────────────
   const bar = document.getElementById('progressBar');
   const bannerText = document.getElementById('bannerText');
+  const toolbarEl = document.getElementById('toolbar');
   const sections = [
     { id: 'sec-thaniyans',   label: 'Obeisance to the Lineage of A:cha:ryas' },
     { id: 'sec-prayers',     label: 'Prayers' },
@@ -1274,15 +1300,21 @@
     const scrolled = window.scrollY;
     const total = document.body.scrollHeight - window.innerHeight;
     bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+    const threshold = toolbarEl.getBoundingClientRect().bottom + 30;
     let current = null;
     for (const sec of sections) {
       const el = document.getElementById(sec.id);
-      if (el && el.getBoundingClientRect().top <= 120) current = sec.label;
+      if (el && el.getBoundingClientRect().top <= threshold) current = sec.label;
     }
     bannerText.textContent = current || 'Sankshe:pa Ra:ma:yanam';
   }
 
-  window.addEventListener('scroll', updateBanner, { passive: true });
+  function onScroll() {
+    handleHeaderVisibility();
+    updateBanner();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
   updateBanner();
 </script>
 <script src="../js/main.js"></script>
